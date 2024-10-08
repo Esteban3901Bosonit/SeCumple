@@ -1,8 +1,10 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using SeCumple.CrossCutting.Interfaces;
 using SeCumple.Infrastructure.Persistence.Context;
 using SeCumple.Infrastructure.Persistence.Interfaces;
+using SeCumple.Infrastructure.Specification;
 
 namespace SeCumple.Infrastructure.Persistence.Repositories;
 
@@ -154,23 +156,23 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         _context.Entry(entity).State = EntityState.Modified;
     }
 
-    // public async Task<T> GetByIdWithSpec(ISpecification<T> spec)
-    // {
-    //     return (await ApplySpecification(spec).FirstOrDefaultAsync())!;
-    // }
-    //
-    // public async Task<IReadOnlyList<T>> GetAllWithSpec(ISpecification<T> spec)
-    // {
-    //     return await ApplySpecification(spec).ToListAsync();
-    // }
-    //
-    // public async Task<int> CountAsync(ISpecification<T> spec)
-    // {
-    //     return await ApplySpecification(spec).CountAsync();
-    // }
-    //
-    // private IQueryable<T> ApplySpecification(ISpecification<T> spec)
-    // {
-    //     return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
-    // }
+    public async Task<T> GetByIdWithSpec(ISpecification<T> spec)
+    {
+        return (await ApplySpecification(spec).FirstOrDefaultAsync())!;
+    }
+
+    public async Task<IReadOnlyList<T>> GetAllWithSpec(ISpecification<T> spec)
+    {
+        return await ApplySpecification(spec).ToListAsync();
+    }
+
+    public async Task<int> CountAsync(ISpecification<T> spec)
+    {
+        return await ApplySpecification(spec).CountAsync();
+    }
+
+    private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+    {
+        return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
+    }
 }
