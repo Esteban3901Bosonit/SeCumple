@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SeCumple.CrossCutting\SeCumple.CrossCutting.csproj" />
+    </ItemGroup>
+
 </Project>
