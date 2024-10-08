@@ -1,4 +1,4 @@
-using SeCumple.CrossCutting.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SeCumple.CrossCutting.Entities;
 
@@ -16,6 +16,6 @@ public class Base
     public DateTime ModificationDate { get; set; }       
     [Column("cIpModificacion")]
     public string? ModificationIp { get; set; }
-    [Column("cEstado")]
-    public int Status { get; set; }
+    [Column("cEstado")] 
+    public char Status { get; set; }
 }
