@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using MediatR;
 using SeCumple.Domain.Entities;
 using SeCumple.Infrastructure.Persistence.Context;
@@ -10,7 +11,15 @@ public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
     public async Task<IReadOnlyList<Document>> Handle(ListDocumentCommand request,
         CancellationToken cancellationToken)
     {
-        return await unitOfWork.Repository<Document>().GetAllAsync();
+        var includes = new List<Expression<Func<Document, object>>>
+        {
+            x => x.DocumentType!
+        };
+        
+        var documents = await unitOfWork.Repository<Document>()
+            .GetAsync(null, x => x.OrderBy(y => y.DocumentCode), includes);
+
+        return documents;
     }
 }
 

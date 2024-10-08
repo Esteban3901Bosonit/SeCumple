@@ -11,9 +11,9 @@ public class Base
     [Column("cIpRegistro")]
     public string? CreationIp { get; set; }
     [Column("iCodUsuarioModificacion")]
-    public int ModifiedBy { get; set; }
+    public int? ModifiedBy { get; set; }
     [Column("dFecModificacion")]
-    public DateTime ModificationDate { get; set; }       
+    public DateTime? ModificationDate { get; set; }       
     [Column("cIpModificacion")]
     public string? ModificationIp { get; set; }
     [Column("cEstado")] 

@@ -13,13 +13,13 @@ public class Document: Base
     [Column("dFechaDispositivo")]
     public DateTime? DocumentDate { get; set; }
     [Column("iTipoDispositivo")]
-    public int DocumentType { get; set; }
+    public int DocumentTypeId { get; set; }
     public string? DocumentDateFormatted => DocumentDate!.Value.ToString("yyyy/MM/dd");
     [Column("cLink")]
     public string? Url { get; set; } 
     [Column("cEstVigencia")]
     public char Active { get; set; }
-    public string? EsActivo => Active == '1' ? "SI" : "NO";
     [Column("iValidado")]
     public int Validated { get; set; }
+    public virtual ParameterDetail? DocumentType { get; set; }
 }
