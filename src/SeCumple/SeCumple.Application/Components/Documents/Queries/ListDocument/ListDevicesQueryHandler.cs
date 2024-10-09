@@ -19,7 +19,7 @@ public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
         {
             PageIndex = request.PageIndex,
             PageSize = request.PageSize,
-            Search = request.Search,
+            Filters = request.Filters,
             Sort = request.Sort,
         };
 

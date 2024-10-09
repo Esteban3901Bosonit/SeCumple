@@ -2,7 +2,7 @@ namespace SeCumple.Application.Dtos.Request;
 
 public class PaginationRequest
 {
-    public string? Search { get; set; }
+    public Dictionary<string,string>? Filters { get; set; }
     public string? Sort { get; set; }
     public int PageIndex { get; set; } = 1;
     private int _pageSize = 5;

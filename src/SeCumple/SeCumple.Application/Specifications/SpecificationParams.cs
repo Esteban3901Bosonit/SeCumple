@@ -3,14 +3,14 @@ namespace SeCumple.Application.Specifications;
 public class SpecificationParams
 {
     private const int MaxPageSize = 50;
-    private int _pageSize = 5;
-    public string? Sort { get; set; }
-    public int PageIndex { get; set; } = 1;
-    public string? Search { get; set; }
+    private readonly int _pageSize = 5;
+    public string? Sort { get; init; }
+    public int PageIndex { get; init; } = 1;
+    public Dictionary<string, string>? Filters { get; set; }
 
     public int PageSize
     {
         get => _pageSize;
-        set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
+        init => _pageSize = value > MaxPageSize ? MaxPageSize : value;
     }
 }

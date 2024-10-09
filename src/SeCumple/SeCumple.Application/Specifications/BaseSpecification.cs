@@ -3,18 +3,9 @@ using SeCumple.CrossCutting.Interfaces;
 
 namespace SeCumple.Application.Specifications;
 
-public class BaseSpecification<T> : ISpecification<T>
+public class BaseSpecification<T>(Expression<Func<T, bool>> criteria) : ISpecification<T>
 {
-    public BaseSpecification()
-    {
-    }
-
-    public BaseSpecification(Expression<Func<T, bool>> criteria)
-    {
-        Criteria = criteria;
-    }
-
-    public Expression<Func<T, bool>>? Criteria { get; }
+    public Expression<Func<T, bool>>? Criteria { get; } = criteria;
     public List<Expression<Func<T, object>>>?Includes { get; } = new();
     public Expression<Func<T, object>>? OrderBy { get; private set; }
     public Expression<Func<T, object>>? OrderByDescending { get; private set; }
@@ -42,5 +33,11 @@ public class BaseSpecification<T> : ISpecification<T>
     protected void AddInclude(Expression<Func<T, object>> includeExpression)
     {
         Includes!.Add(includeExpression);
+    }
+
+    protected static List<int> ParseIds(string ids)
+    {
+        return string.IsNullOrWhiteSpace(ids) ? new List<int>() : ids.Split(',').Select(int.Parse).ToList();
+        return ids.Split(',').Select(int.Parse).ToList();
     }
 }

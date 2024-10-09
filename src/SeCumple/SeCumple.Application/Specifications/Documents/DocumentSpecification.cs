@@ -6,10 +6,12 @@ public class DocumentSpecification : BaseSpecification<Document>
 {
     public DocumentSpecification(SpecificationParams documentsParams) : base(
         x =>
-            string.IsNullOrEmpty(documentsParams.Search) || x.DocumentCode!.Contains(documentsParams.Search)
+            documentsParams.Filters == null || documentsParams.Filters.Count == 0 ||
+            (documentsParams.Filters.ContainsKey("documentTypeIds") &&
+             ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId))
     )
     {
-        AddInclude(x=> x.DocumentType!);
+        AddInclude(x => x.DocumentType!);
         ApplyPaging(documentsParams.PageSize * (documentsParams.PageIndex - 1), documentsParams.PageSize);
 
         if (!string.IsNullOrEmpty(documentsParams.Sort))
@@ -46,6 +48,9 @@ public class DocumentSpecification : BaseSpecification<Document>
     }
 }
 
-public class DocumentForCountingSpecification(SpecificationParams userParams) : BaseSpecification<Document>(x =>
-    string.IsNullOrEmpty(userParams.Search) || x.DocumentCode!.Contains(userParams.Search)
+public class DocumentForCountingSpecification(SpecificationParams documentsParams) : BaseSpecification<Document>(x =>
+    documentsParams.Filters == null || documentsParams.Filters.Count == 0 ||
+    (documentsParams.Filters.ContainsKey("documentTypeIds") &&
+     ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId)
+    )
 );

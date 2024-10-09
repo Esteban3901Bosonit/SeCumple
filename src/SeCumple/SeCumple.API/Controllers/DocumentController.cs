@@ -4,12 +4,13 @@ using SeCumple.Application.Components.Documents.Queries.ListDocument;
 
 namespace SeCumple.API.Controllers;
 
+[ApiController]
+[Route("api/v1/[controller]")]
 public class DocumentController(IMediator mediator) : ControllerBase
 {
-    [HttpGet("list", Name = "ListDocuments")]
-    public async Task<IActionResult> ListDocuments()
+    [HttpPost("list", Name = "ListDocuments")]
+    public async Task<IActionResult> ListDocuments(ListDocumentCommand request)
     {
-        var query = new ListDocumentCommand();
-        return Ok(await mediator.Send(query));
+        return Ok(await mediator.Send(request));
     }
 }
