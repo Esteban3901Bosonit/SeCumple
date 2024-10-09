@@ -6,9 +6,14 @@ public class DocumentSpecification : BaseSpecification<Document>
 {
     public DocumentSpecification(SpecificationParams documentsParams) : base(
         x =>
-            documentsParams.Filters == null || documentsParams.Filters.Count == 0 ||
-            (documentsParams.Filters.ContainsKey("documentTypeIds") &&
-             ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId))
+            (!documentsParams.Filters!.ContainsKey("documentTypeIds") || 
+             ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId)) &&
+            
+            (!documentsParams.Filters.ContainsKey("Active") || 
+             x.Active.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
+            
+            (!documentsParams.Filters.ContainsKey("DocumentCode") || 
+             x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"]))
     )
     {
         AddInclude(x => x.DocumentType!);
@@ -49,8 +54,12 @@ public class DocumentSpecification : BaseSpecification<Document>
 }
 
 public class DocumentForCountingSpecification(SpecificationParams documentsParams) : BaseSpecification<Document>(x =>
-    documentsParams.Filters == null || documentsParams.Filters.Count == 0 ||
-    (documentsParams.Filters.ContainsKey("documentTypeIds") &&
-     ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId)
-    )
+    (!documentsParams.Filters!.ContainsKey("documentTypeIds") || 
+     ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId)) &&
+    
+    (!documentsParams.Filters.ContainsKey("Active") || 
+     x.Active.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
+    
+    (!documentsParams.Filters.ContainsKey("DocumentCode") || 
+     x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"]))
 );
