@@ -1,3 +1,4 @@
+using SeCumple.API.Middlewares;
 using SeCumple.Application;
 using SeCumple.CrossCutting.Options;
 using SeCumple.Infrastructure;
@@ -25,6 +26,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 
