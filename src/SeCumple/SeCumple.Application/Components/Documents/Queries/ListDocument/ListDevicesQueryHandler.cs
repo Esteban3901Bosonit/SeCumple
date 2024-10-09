@@ -1,5 +1,5 @@
-using System.Linq.Expressions;
 using MediatR;
+using SeCumple.Application.Components.Documents.Dtos;
 using SeCumple.Application.Dtos.Request;
 using SeCumple.Application.Dtos.Response;
 using SeCumple.Application.Specifications;
@@ -10,9 +10,9 @@ using SeCumple.Infrastructure.Persistence.Context;
 namespace SeCumple.Application.Components.Documents.Queries.ListDocument;
 
 public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<ListDocumentCommand, PaginationResponse<Document>>
+    : IRequestHandler<ListDocumentCommand, ProcessResult<PaginationResponse<DocumentResponse>>>
 {
-    public async Task<PaginationResponse<Document>> Handle(ListDocumentCommand request,
+    public async Task<ProcessResult<PaginationResponse<DocumentResponse>>> Handle(ListDocumentCommand request,
         CancellationToken cancellationToken)
     {
         var documentSpecParams = new SpecificationParams
@@ -22,33 +22,42 @@ public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
             Search = request.Search,
             Sort = request.Sort,
         };
-        
+
         var documentSpec = new DocumentSpecification(documentSpecParams);
         var documents = await unitOfWork.Repository<Document>().GetAllWithSpec(documentSpec);
-        
+
         var specCount = new DocumentForCountingSpecification(documentSpecParams);
         var totalDocuments = await unitOfWork.Repository<Document>().CountAsync(specCount);
-        
+
         var rounded = Math.Ceiling(Convert.ToDecimal(totalDocuments) / Convert.ToDecimal(request.PageSize));
         var totalPages = Convert.ToInt32(rounded);
-        
-        var includes = new List<Expression<Func<Document, object>>>
-        {
-            x => x.DocumentType!
-        };
 
-        return new PaginationResponse<Document>()
+        var documentResponse = documents.Select(d => new DocumentResponse
         {
-            Count = totalDocuments,
-            Data = documents,
-            PageCount = totalPages,
-            PageIndex = request.PageIndex,
-            PageSize = request.PageSize,
-            ResultByPage = documents.Count
+            Id = d.Id,
+            DocumentCode = d.DocumentCode,
+            DocumentDate = d.DocumentDate,
+            DocumentTypeId = d.DocumentTypeId,
+            DocumentType = d.DocumentType?.Name,
+            Url = d.Url,
+            Active = d.Active == '1' ? "SI" : "NO"
+        });
+        
+        return new ProcessResult<PaginationResponse<DocumentResponse>>
+        {
+            Result = new PaginationResponse<DocumentResponse>
+            {
+                Count = totalDocuments,
+                Data = documentResponse.ToList(),
+                PageCount = totalPages,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                ResultByPage = documents.Count
+            }
         };
     }
 }
 
-public class ListDocumentCommand : PaginationRequest, IRequest<PaginationResponse<Document>>
+public class ListDocumentCommand : PaginationRequest, IRequest<ProcessResult<PaginationResponse<DocumentResponse>>>
 {
 }
