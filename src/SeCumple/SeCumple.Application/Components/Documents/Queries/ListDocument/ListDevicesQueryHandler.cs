@@ -10,9 +10,9 @@ using SeCumple.Infrastructure.Persistence.Context;
 namespace SeCumple.Application.Components.Documents.Queries.ListDocument;
 
 public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<ListDocumentCommand, ProcessResult<PaginationResponse<DocumentResponse>>>
+    : IRequestHandler<ListDocumentQuery, ProcessResult<PaginationResponse<DocumentResponse>>>
 {
-    public async Task<ProcessResult<PaginationResponse<DocumentResponse>>> Handle(ListDocumentCommand request,
+    public async Task<ProcessResult<PaginationResponse<DocumentResponse>>> Handle(ListDocumentQuery request,
         CancellationToken cancellationToken)
     {
         var documentSpecParams = new SpecificationParams
@@ -58,6 +58,6 @@ public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public class ListDocumentCommand : PaginationRequest, IRequest<ProcessResult<PaginationResponse<DocumentResponse>>>
+public class ListDocumentQuery : PaginationRequest, IRequest<ProcessResult<PaginationResponse<DocumentResponse>>>
 {
 }

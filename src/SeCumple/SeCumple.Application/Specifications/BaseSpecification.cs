@@ -38,6 +38,5 @@ public class BaseSpecification<T>(Expression<Func<T, bool>> criteria) : ISpecifi
     protected static List<int> ParseIds(string ids)
     {
         return string.IsNullOrWhiteSpace(ids) ? new List<int>() : ids.Split(',').Select(int.Parse).ToList();
-        return ids.Split(',').Select(int.Parse).ToList();
     }
 }

@@ -21,6 +21,9 @@ public class ExceptionMiddleware
     {
         try
         {
+            var clientIp = context.Connection.RemoteIpAddress?.ToString();
+            context.Items["ClientIp"] = clientIp;
+            
             await _next(context);
         }
         catch (Exception e)
