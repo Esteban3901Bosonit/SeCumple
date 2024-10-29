@@ -17,5 +17,6 @@ public class Axis : Base
     [Column("cDescripcion")]
     public string? Description { get; set; }
     [Column("cValidado")]
-    public string? Validated { get; set; }
+    public char Validated { get; set; }
+    public virtual ICollection<GuideLine>? GuideLines { get; set; }
 }

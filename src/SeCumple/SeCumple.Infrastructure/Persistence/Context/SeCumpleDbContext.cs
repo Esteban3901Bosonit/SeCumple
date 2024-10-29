@@ -1,3 +1,4 @@
+using System.Numerics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SeCumple.CrossCutting.Entities;
@@ -68,15 +69,30 @@ public class SeCumpleDbContext : DbContext
                 .WithOne(a=>a.Plan)
                 .HasForeignKey(a=>a.PlanId)
                 .OnDelete(DeleteBehavior.NoAction);
+            e.HasMany(p=>p.PlanAnios)
+                .WithOne(a=>a.Plan)
+                .HasForeignKey(a=>a.PlanId)
+                .OnDelete(DeleteBehavior.NoAction);
         });
 
         modelBuilder.Entity<Parameter>();
+        modelBuilder.Entity<PlanAnio>(e =>
+        {
+            e.HasOne(p=>p.Plan).WithMany()
+                .HasForeignKey(d => d.PlanId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
         modelBuilder.Entity<Assignment>();
         modelBuilder.Entity<ParameterDetail>();
-        modelBuilder.Entity<Axis>();
+        modelBuilder.Entity<Axis>(e =>
+        {
+            e.HasMany(a=>a.GuideLines)
+                .WithOne(g=>g.Axis)
+                .HasForeignKey(g=>g.AxisId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
         modelBuilder.Entity<Sector>();
         modelBuilder.Entity<InterventionAssignment>();
-        modelBuilder.Entity<Plan>();
         modelBuilder.Entity<Intervention>(e =>
         {
             e.HasOne(i=>i.GuideLine).WithMany()
@@ -89,12 +105,7 @@ public class SeCumpleDbContext : DbContext
                 .HasForeignKey(i=>i.OrganicUnitId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
-        modelBuilder.Entity<GuideLine>(e =>
-        {
-            e.HasOne(i=>i.Axis).WithMany()
-                .HasForeignKey(i=>i.AxisId)
-                .OnDelete(DeleteBehavior.NoAction);
-        });
+        modelBuilder.Entity<GuideLine>();
         modelBuilder.Entity<OrganicUnit>(e =>
         {
             e.HasOne(i=>i.Sector).WithMany()

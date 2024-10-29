@@ -16,5 +16,5 @@ public class GuideLine : Base
     [Column("cDescripcion")]
     public string? Description { get; set; }
     [Column("cValidado")]
-    public string? Validated { get; set; }
+    public char? Validated { get; set; }
 }

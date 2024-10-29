@@ -33,7 +33,7 @@ public class CreateDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
                 iTipoDispositivo = document.DocumentTypeId,
                 DocumentType = document.DocumentType?.Name,
                 cLink = document.Url,
-                cEstado = document.Active == '1' ? "SI" : "NO"
+                cEstado = document.Status == '1' ? "SI" : "NO"
             }
         };
     }
@@ -45,7 +45,7 @@ public class CreateDocumentCommand: IRequest<ProcessResult<DocumentResponse>>
     public DateTime DocumentDate { get; set; }
     public int DocumentTypeId { get; set; }
     public string? Url { get; set; }
-    public char Active { get; set; } = '1';
-    public int Validated { get; set; } = 1;
+    public char Active { get; set; } = '0';
+    public char Validated { get; set; } = '0';
     public int UserId { get; set; }
 }

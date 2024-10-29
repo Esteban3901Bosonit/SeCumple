@@ -13,7 +13,7 @@ public class GetGuidelLinesByAxisIdQueryHandler(IUnitOfWork unitOfWork)
         CancellationToken cancellationToken)
     {
         var guideLines = await unitOfWork.Repository<GuideLine>().GetAsync(
-            x => x.Status == '1' && x.Validated == "1" && x.AxisId == request.AxisId);
+            x => x.Status == '1' && x.Validated == '1' && x.AxisId == request.AxisId);
 
         return new ProcessResult<IReadOnlyList<GuideLineResponse>>
         {
