@@ -13,7 +13,7 @@ public class IndicatorResponse
     public int iTipoIndicador { get; set; }
     public string cNombreTipoIndicador { get; set; }
     public string cAccion { get; set; }
-    public int iMovIndicadorPadre { get; set; }
+    public int? iMovIndicadorPadre { get; set; }
     public int iEstadoIndicador { get; set; }
     public string cEstadoIndicador { get; set; }
     public int Nivel { get; set; }

@@ -27,6 +27,9 @@ public class ListIndicatorQueryHandler(IUnitOfWork unitOfWork)
         var indicatorType = await unitOfWork.Repository<ParameterDetail>()
             .GetAsync(x => x.ParentId == (int)ParameterEnum.IndicatorType);
 
+        var indicatorStatus = await unitOfWork.Repository<ParameterDetail>()
+            .GetAsync(x => x.ParentId == (int)ParameterEnum.IndicatorStatus);
+        
         var indicatorSpec = new IndicatorSpecification(indicatorSpecParams);
         var indicators = await unitOfWork.Repository<Indicator>().GetAllWithSpec(indicatorSpec);
 
@@ -39,8 +42,14 @@ public class ListIndicatorQueryHandler(IUnitOfWork unitOfWork)
         var indicatorResponse = indicators.Select(p => new IndicatorResponse
         {
             cNombre = p.Name!,
-            iNivelTipoIndicador = p.IndicatorType!.NumericalValue,
+            iNivelTipoIndicador = indicatorType.FirstOrDefault(x=>x.Id==p.IndicatorTypeId)!.NumericalValue,
             Nivel = p.ParentId is null or < 1 ? 0 : 1 + (p.IndicatorType!.NumericalValue ?? 0),
+            iMovIndicadorPadre = p.ParentId,
+            cEstadoIndicador = indicatorStatus.FirstOrDefault(x=>x.Id==p.IndicatorStatusId)!.Name!,
+            iEstadoIndicador = p.IndicatorStatusId,
+            iAnio = int.Parse(request.Filters!["iDetPlanCumpAnio"]),
+            cAccion = p.Action!,
+            cNombreLineamiento = p.Intervention!.GuideLine!.Description,
             
         });
 

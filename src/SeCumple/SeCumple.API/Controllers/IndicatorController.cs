@@ -11,7 +11,7 @@ namespace SeCumple.API.Controllers;
 public class IndicatorController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [Route("~/api/gestion/listarIndicador", Name = "list")]
+    [Route("~/api/gestion/listarIndicador", Name = "listIndicator")]
     public async Task<IActionResult> ListIndicator(ListIndicatorQuery request)
     {
         return Ok(await mediator.Send(request));

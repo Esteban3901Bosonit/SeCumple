@@ -25,5 +25,5 @@ public class Indicator : Base
     [Column("iMovIndicadorPadre")]
     public int? ParentId { get; set; }
     [Column("iEstadoIndicador")]
-    public int IndicatorStatus { get; set; }
+    public int IndicatorStatusId { get; set; }
 }

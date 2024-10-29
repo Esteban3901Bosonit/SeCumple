@@ -11,7 +11,7 @@ namespace SeCumple.API.Controllers;
 public class PlanController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [Route("~/api/gestion/listarPlan", Name = "list")]
+    [Route("~/api/gestion/listarPlan", Name = "listPlan")]
     public async Task<IActionResult> ListPlans(ListPlanQuery request)
     {
         return Ok(await mediator.Send(request));
