@@ -10,7 +10,7 @@ public class DocumentSpecification : BaseSpecification<Document>
              ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId)) &&
             
             (!documentsParams.Filters.ContainsKey("Active") || 
-             x.Active.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
+             x.Status.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
             
             (!documentsParams.Filters.ContainsKey("DocumentCode") || 
              x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"])) //&&

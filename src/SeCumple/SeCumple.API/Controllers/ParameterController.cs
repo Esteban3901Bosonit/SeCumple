@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SeCumple.Application.Components.ParameterDetails.Queries.SelectParameters;
+using SeCumple.Application.Components.Parameters.Queries.ListParameters;
 
 namespace SeCumple.API.Controllers;
 
@@ -8,12 +9,11 @@ namespace SeCumple.API.Controllers;
 [Route("api/v1/[controller]")]
 public class ParameterController(IMediator mediator) : ControllerBase
 {
-    [HttpGet]
+    [HttpPost]
     [Route("~/api/parameter/ListarParameter", Name = "listParameter")]
-    public async Task<IActionResult> ListParameter()
+    public async Task<IActionResult> ListParameter(ListParametersQuery request)
     {
-        var query = new SelectParameterDetailsQuery();
-        return Ok(await mediator.Send(query));
+        return Ok(await mediator.Send(request));
     }
     
     [HttpGet]

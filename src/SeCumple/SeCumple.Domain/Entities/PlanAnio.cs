@@ -3,7 +3,7 @@ using SeCumple.CrossCutting.Entities;
 
 namespace SeCumple.Domain.Entities;
 
-[Table("DetPlanCumplimiento")]
+[Table("DetPlanCumplimientoAnio")]
 public class PlanAnio : Base
 {
     [Column("iDetPlanCumplAnio")]
