@@ -1,6 +1,4 @@
-using SeCumple.Infrastructure.Persistence.Interfaces;
-
-namespace SeCumple.Infrastructure.Persistence.Context;
+namespace SeCumple.Infrastructure.Persistence.Interfaces;
 
 public interface IUnitOfWork : IDisposable
 {

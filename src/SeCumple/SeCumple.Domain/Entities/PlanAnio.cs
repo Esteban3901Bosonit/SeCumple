@@ -10,6 +10,7 @@ public class PlanAnio : Base
     public int Id { get; set; }
     [Column("iDetPlanCumplimiento")]
     public int PlanId { get; set; }
+    public virtual Plan? Plan { get; set; }
     [Column("iAnios")]
     public int Anio { get; set; }
 }

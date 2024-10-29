@@ -16,12 +16,14 @@ public class Indicator : Base
     public int MeasureUnit { get; set; }
     [Column("iMovIntervencion")]
     public int InterventionId { get; set; }
+    public virtual Intervention? Intervention { get; set; }
     [Column("iTipoIndicador")]
     public int IndicatorTypeId { get; set; }
+    public virtual ParameterDetail? IndicatorType { get; set; }
     [Column("cAccion")]
     public string? Action { get; set; }
     [Column("iMovIndicadorPadre")]
-    public int ParentId { get; set; }
+    public int? ParentId { get; set; }
     [Column("iEstadoIndicador")]
     public int IndicatorStatus { get; set; }
 }

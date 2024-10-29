@@ -5,7 +5,7 @@ using SeCumple.Application.Dtos.Response;
 using SeCumple.Application.Specifications;
 using SeCumple.Application.Specifications.Documents;
 using SeCumple.Domain.Entities;
-using SeCumple.Infrastructure.Persistence.Context;
+using SeCumple.Infrastructure.Persistence.Interfaces;
 
 namespace SeCumple.Application.Components.Documents.Queries.ListDocument;
 
@@ -34,18 +34,18 @@ public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
 
         var documentResponse = documents.Select(d => new DocumentResponse
         {
-            Id = d.Id,
-            DocumentCode = d.DocumentCode,
-            DocumentDate = d.DocumentDate,
-            DocumentTypeId = d.DocumentTypeId,
+            iMaeDispositivo = d.Id,
+            cNumDispositivo = d.DocumentCode,
+            dFechaDispositivo = d.DocumentDate,
+            iTipoDispositivo = d.DocumentTypeId,
             DocumentType = d.DocumentType?.Name,
-            Url = d.Url,
-            Active = d.Active == '1' ? "SI" : "NO"
+            cLink = d.Url,
+            cEstado = d.Active == '1' ? "SI" : "NO"
         });
         
         return new ProcessResult<PaginationResponse<DocumentResponse>>
         {
-            Result = new PaginationResponse<DocumentResponse>
+            Data = new PaginationResponse<DocumentResponse>
             {
                 Count = totalDocuments,
                 Data = documentResponse.ToList(),

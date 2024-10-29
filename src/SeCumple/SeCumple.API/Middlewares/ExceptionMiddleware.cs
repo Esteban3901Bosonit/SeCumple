@@ -54,7 +54,7 @@ public class ExceptionMiddleware
                 result = JsonConvert.SerializeObject(new ProcessResult<CodeErrorException>
                 {
                     IsSuccess = false,
-                    Messages = new[] { e.Message }
+                    Message = new[] { e.Message }
                 });
             }
             context.Response.StatusCode = statusCode;

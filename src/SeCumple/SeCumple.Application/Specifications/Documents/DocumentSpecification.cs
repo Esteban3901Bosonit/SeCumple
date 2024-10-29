@@ -13,9 +13,9 @@ public class DocumentSpecification : BaseSpecification<Document>
              x.Active.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
             
             (!documentsParams.Filters.ContainsKey("DocumentCode") || 
-             x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"])) &&
+             x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"])) //&&
             
-            x.Status.Equals('0')
+            // x.Status.Equals('0')
     )
     {
         AddInclude(x => x.DocumentType!);
@@ -63,7 +63,7 @@ public class DocumentForCountingSpecification(SpecificationParams documentsParam
      x.Active.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
     
     (!documentsParams.Filters.ContainsKey("DocumentCode") || 
-     x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"])) &&
+     x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"])) //&&
             
-    x.Status.Equals('0')
+    // x.Status.Equals('0')
 );
