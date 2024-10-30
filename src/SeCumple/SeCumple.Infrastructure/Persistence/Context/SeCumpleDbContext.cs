@@ -65,20 +65,20 @@ public class SeCumpleDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(d => d.DocumentId)
                 .OnDelete(DeleteBehavior.NoAction);
-            e.HasMany(p=>p.Assigments)
-                .WithOne(a=>a.Plan)
-                .HasForeignKey(a=>a.PlanId)
+            e.HasMany(p => p.Assigments)
+                .WithOne(a => a.Plan)
+                .HasForeignKey(a => a.PlanId)
                 .OnDelete(DeleteBehavior.NoAction);
-            e.HasMany(p=>p.PlanAnios)
-                .WithOne(a=>a.Plan)
-                .HasForeignKey(a=>a.PlanId)
+            e.HasMany(p => p.PlanAnios)
+                .WithOne(a => a.Plan)
+                .HasForeignKey(a => a.PlanId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
 
         modelBuilder.Entity<Parameter>();
         modelBuilder.Entity<PlanAnio>(e =>
         {
-            e.HasOne(p=>p.Plan).WithMany()
+            e.HasOne(p => p.Plan).WithMany()
                 .HasForeignKey(d => d.PlanId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
@@ -86,33 +86,41 @@ public class SeCumpleDbContext : DbContext
         modelBuilder.Entity<ParameterDetail>();
         modelBuilder.Entity<Axis>(e =>
         {
-            e.HasMany(a=>a.GuideLines)
-                .WithOne(g=>g.Axis)
-                .HasForeignKey(g=>g.AxisId)
+            e.HasMany(a => a.GuideLines)
+                .WithOne(g => g.Axis)
+                .HasForeignKey(g => g.AxisId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
         modelBuilder.Entity<Sector>();
         modelBuilder.Entity<InterventionAssignment>();
         modelBuilder.Entity<Intervention>(e =>
         {
-            e.HasOne(i=>i.GuideLine).WithMany()
-                .HasForeignKey(i=>i.GuidelineId)
+            e.HasOne(i => i.GuideLine).WithMany()
+                .HasForeignKey(i => i.GuidelineId)
                 .OnDelete(DeleteBehavior.NoAction);
-            e.HasOne(i=>i.OrganicUnit).WithMany()
-                .HasForeignKey(i=>i.OrganicUnitId)
+            e.HasOne(i => i.OrganicUnit).WithMany()
+                .HasForeignKey(i => i.OrganicUnitId)
                 .OnDelete(DeleteBehavior.NoAction);
-            e.HasOne(i=>i.OrganicUnit).WithMany()
-                .HasForeignKey(i=>i.OrganicUnitId)
+            e.HasOne(i => i.OrganicUnit).WithMany()
+                .HasForeignKey(i => i.OrganicUnitId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
         modelBuilder.Entity<GuideLine>();
-        modelBuilder.Entity<OrganicUnit>(e =>
+        modelBuilder.Entity<Indicator>();
+        modelBuilder.Entity<Period>(e =>
         {
-            e.HasOne(i=>i.Sector).WithMany()
-                .HasForeignKey(i=>i.SectorId)
+            e.HasMany(p => p.Goals).WithOne(g => g.Period)
+                .HasForeignKey(m => m.PeriodId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
-        
+        modelBuilder.Entity<Goal>();
+        modelBuilder.Entity<OrganicUnit>(e =>
+        {
+            e.HasOne(i => i.Sector).WithMany()
+                .HasForeignKey(i => i.SectorId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
+
         base.OnModelCreating(modelBuilder);
     }
 }

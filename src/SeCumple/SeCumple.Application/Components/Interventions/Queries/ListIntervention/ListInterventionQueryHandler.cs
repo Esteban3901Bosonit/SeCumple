@@ -32,7 +32,6 @@ public class ListInterventionQueryHandler(IUnitOfWork unitOfWork)
         var rounded = Math.Ceiling(Convert.ToDecimal(totalInterventions) / Convert.ToDecimal(request.PageSize));
         var totalPages = Convert.ToInt32(rounded);
 
-
         var interventionResponse = interventions.Select(i => new InterventionResponse
         {
             iMovIntervencion = i.Id,

@@ -28,8 +28,17 @@ public class DocumentController(IMediator mediator) : ControllerBase
         var query = new SelectParameterDetailsQuery { ParentId = (int)ParameterEnum.DocumentType };
         return Ok(await mediator.Send(query));
     }
+    
+    [HttpGet]
+    [Route("~/api/configuracion/ListarDispositivo", Name = "listDocuments")]
+    public async Task<IActionResult> ListDocuments(int id)
+    {
+        var query = new GetDocumentByDpcumentTypeIdQuery { DocumentTypeId = id };
+        return Ok(await mediator.Send(query));
+    }
 
-    [HttpGet("~/api/Dispositivo/ListarDispositivo", Name = "ListarDispositivoPorTipo")]
+    [HttpGet]
+    [Route("~/api/Dispositivo/ListarDispositivo", Name = "ListarDispositivoPorTipo")]
     public async Task<IActionResult> GetDocumentsByDocumentTypeId(int id)
     {
         var query = new GetDocumentByDpcumentTypeIdQuery { DocumentTypeId = id };
@@ -37,7 +46,7 @@ public class DocumentController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("~/api/dispositivo/InsertarDispositivo", Name = "CreateDocument")]
-    public async Task<IActionResult> CreateDocuments([FromBody] CreateDocumentCommand request)
+    public async Task<IActionResult> CreateDocument([FromBody] CreateDocumentCommand request)
     {
         return Ok(await mediator.Send(request));
     }

@@ -1,27 +1,29 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using SeCumple.CrossCutting.Entities;
 
 namespace SeCumple.Domain.Entities;
 
-[Table("MaeEje")]
-public class Goal
+[Table("MovMeta")]
+public class Goal: Base
 {
     [Column("iMovMeta")]
     public int Id { get; set; }
     [Column("iMovIndicadorPeriodo")]
     public int PeriodId { get; set; }
+    public virtual Period? Period { get; set; }
     [Column("iInformarMeta")]
-    public int? GoalValue { get; set; }
+    public decimal GoalValue { get; set; }
     [Column("iFlag")]
     public int? Flag { get; set; }
     [Column("iMeta")]
-    public int? FinalGoal { get; set; }
+    public decimal? FinalGoal { get; set; }
     [Column("iOrden")]
-    public int? Order { get; set; }
+    public int Order { get; set; }
     [Column("cUrlArchivo")]
     public string? Url { get; set; }
     [Column("cComentario")]
     public string? Comment { get; set; }
-    [Column("cNombreArhivo")]
+    [Column("cNombreArchivo")]
     public string? Filename { get; set; }
     [Column("iEstadoMeta")]
     public int GoalStatusId { get; set; }

@@ -12,14 +12,16 @@ public class SelectParameterDetailsQueryHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<IReadOnlyList<ParameterDetailResponse>>> Handle(SelectParameterDetailsQuery request,
         CancellationToken cancellationToken)
     {
-        var detailsParameter = await unitOfWork.Repository<ParameterDetail>().GetAsync(x => x.ParentId == request.ParentId);
+        var detailsParameter =
+            await unitOfWork.Repository<ParameterDetail>().GetAsync(x => x.ParentId == request.ParentId);
 
-        return new ProcessResult<IReadOnlyList<ParameterDetailResponse>>()
+        return new ProcessResult<IReadOnlyList<ParameterDetailResponse>>
         {
             Data = detailsParameter.Select(d => new ParameterDetailResponse
             {
                 iDetParameterId = d.Id,
-                cNombre = d.Name!
+                cNombre = d.Name!,
+                cEstado = d.Status == '1' ? "ACTIVO" : "INACTIVO"
             }).ToList()
         };
     }

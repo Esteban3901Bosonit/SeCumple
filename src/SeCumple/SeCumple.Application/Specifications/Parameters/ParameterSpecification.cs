@@ -8,8 +8,8 @@ public class ParameterSpecification : BaseSpecification<Parameter>
         x =>
             (!parametersParams.Filters!.ContainsKey("cNombre") ||
              parametersParams.Filters["cNombre"].Contains(x.Name!)) &&
-            (!parametersParams.Filters.ContainsKey("Active") ||
-             x.Status.Equals(char.Parse(parametersParams.Filters["Active"])))
+            (!parametersParams.Filters.ContainsKey("cEstado") ||
+             x.Status.Equals(char.Parse(parametersParams.Filters["cEstado"])))
     )
     {
         ApplyPaging(parametersParams.PageSize * (parametersParams.PageIndex - 1), parametersParams.PageSize);
@@ -21,6 +21,6 @@ public class ParameterSpecification : BaseSpecification<Parameter>
 public class ParameterForCountingSpecification(SpecificationParams parametersParams) : BaseSpecification<Parameter>(x =>
     (!parametersParams.Filters!.ContainsKey("cNombre") ||
      parametersParams.Filters["cNombre"].Contains(x.Name!)) &&
-    (!parametersParams.Filters.ContainsKey("Active") ||
-     x.Status.Equals(char.Parse(parametersParams.Filters["Active"])))
+    (!parametersParams.Filters.ContainsKey("cEstado") ||
+     x.Status.Equals(char.Parse(parametersParams.Filters["cEstado"])))
 );

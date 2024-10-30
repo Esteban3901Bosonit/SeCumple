@@ -13,6 +13,14 @@ namespace SeCumple.API.Controllers;
 public class AxisController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [Route("~/api/configuracion/listarEje", Name = "ListAxles")]
+    public async Task<IActionResult> ListAxles(int id)
+    {
+        var query = new GetAxisByDocumentIdQuery { DocumentId = id };
+        return Ok(await mediator.Send(query));
+    }
+    
+    [HttpGet]
     [Route("~/api/Eje/ListarEjeLineamiento", Name = "getAxisByDocumentId")]
     public async Task<IActionResult> GetAxisByDocumentId(int id)
     {
@@ -27,19 +35,19 @@ public class AxisController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("~/api/Eje/ActulizarEje", Name = "UpdateAxis")]
-    public async Task<IActionResult> UpdateDocument([FromBody] UpdateAxisCommand request)
+    public async Task<IActionResult> UpdateAxis([FromBody] UpdateAxisCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost("~/api/Eje/ValidarEje", Name = "ValidateAxis")]
-    public async Task<IActionResult> ValidateDocument([FromBody] ValidateAxisCommand request)
+    public async Task<IActionResult> ValidateAxis([FromBody] ValidateAxisCommand request)
     {
         return Ok(await mediator.Send(request));
     }
     
     [HttpPost("~/api/Eje/EliminarEje", Name = "DeleteAxis")]
-    public async Task<IActionResult> DeleteDocument([FromBody] DeleteAxisCommand request)
+    public async Task<IActionResult> DeleteAxis([FromBody] DeleteAxisCommand request)
     {
         return Ok(await mediator.Send(request));
     }

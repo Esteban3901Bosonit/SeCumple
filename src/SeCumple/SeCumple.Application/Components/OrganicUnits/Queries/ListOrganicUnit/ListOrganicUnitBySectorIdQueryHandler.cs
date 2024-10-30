@@ -6,10 +6,10 @@ using SeCumple.Infrastructure.Persistence.Interfaces;
 
 namespace SeCumple.Application.Components.OrganicUnits.Queries.ListOrganicUnit;
 
-public class GetOrganicUnitBySectorIdQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<GetOrganicUnitBySectorIdQuery, ProcessResult<IReadOnlyList<OrganicUnitResponse>>>
+public class ListOrganicUnitBySectorIdQueryHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<ListOrganicUnitBySectorIdQuery, ProcessResult<IReadOnlyList<OrganicUnitResponse>>>
 {
-    public async Task<ProcessResult<IReadOnlyList<OrganicUnitResponse>>> Handle(GetOrganicUnitBySectorIdQuery request,
+    public async Task<ProcessResult<IReadOnlyList<OrganicUnitResponse>>> Handle(ListOrganicUnitBySectorIdQuery request,
         CancellationToken cancellationToken)
     {
         var organicUnits = await unitOfWork.Repository<OrganicUnit>().GetAsync(
@@ -19,7 +19,7 @@ public class GetOrganicUnitBySectorIdQueryHandler(IUnitOfWork unitOfWork)
         {
             Data = organicUnits.Select(a => new OrganicUnitResponse
             {
-                cEstado = a.Status.ToString(),
+                cEstado = a.Status == '1' ? "ACTIVO" : "INACTIVO",
                 cNombre = a.Name!,
                 cSigla = a.Acronym!,
                 iMaeUnidadOrganica = a.Id,
@@ -29,7 +29,7 @@ public class GetOrganicUnitBySectorIdQueryHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public class GetOrganicUnitBySectorIdQuery : IRequest<ProcessResult<IReadOnlyList<OrganicUnitResponse>>>
+public class ListOrganicUnitBySectorIdQuery : IRequest<ProcessResult<IReadOnlyList<OrganicUnitResponse>>>
 {
     public int SectorId { get; set; }
 }

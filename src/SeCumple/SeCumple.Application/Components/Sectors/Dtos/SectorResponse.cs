@@ -7,4 +7,5 @@ public class SectorResponse
     public string cNombre { get; set; }
     public string cSigla { get; set; }     
     public string cEstado { get; set; }
+    public string cDescripcion { get; set; }
 }

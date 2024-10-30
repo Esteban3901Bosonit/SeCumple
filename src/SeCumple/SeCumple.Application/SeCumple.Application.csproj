@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\ParameterDetails\Queries\ListParameters\" />
+      <Folder Include="Components\Goals\Commands\UpdateGoal\" />
       <Folder Include="Interfaces\" />
     </ItemGroup>
 
