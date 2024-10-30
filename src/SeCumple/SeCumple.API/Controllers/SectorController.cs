@@ -13,7 +13,7 @@ namespace SeCumple.API.Controllers;
 public class SectorController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    [Route("~/configuracion/ListarSector", Name = "SelectSector")]
+    [Route("~/api/configuracion/ListarSector", Name = "SelectSector")]
     public async Task<IActionResult> SelectSector()
     {
         var query = new SelectSectorQuery();
