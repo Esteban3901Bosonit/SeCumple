@@ -5,13 +5,22 @@ using SeCumple.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.Configure<SettingOptions>(builder.Configuration.GetSection("Settings"));
 
+// Configura CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.AllowAnyOrigin() // Temporalmente permite todos los orígenes para depurar
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+// Agrega servicios al contenedor
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddControllers()
-    ;
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -20,14 +29,31 @@ builder.Services.AddInfrastructureDependencies(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Solicitud entrante: Método: {context.Request.Method}, Ruta: {context.Request.Path}");
+    await next.Invoke();
+});
+
+app.UseCors("AllowSpecificOrigins");
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == HttpMethods.Options)
+    {
+        context.Response.StatusCode = StatusCodes.Status204NoContent;
+        return;
+    }
+    await next();
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
