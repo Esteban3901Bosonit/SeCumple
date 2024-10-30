@@ -20,19 +20,19 @@ public class GuideLineController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("~/api/lineamiento/InsertarLineamiento", Name = "CreateGuideLine")]
-    public async Task<IActionResult> CreateAxis([FromBody] CreateGuidelineCommand request)
+    public async Task<IActionResult> CreateGuideLine([FromBody] CreateGuidelineCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost("~/api/lineamiento/ActulizarLineamiento", Name = "UpdateGuideLine")]
-    public async Task<IActionResult> UpdateDocument([FromBody] UpdateGuidelineCommand request)
+    public async Task<IActionResult> UpdateGuideLine([FromBody] UpdateGuidelineCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost("~/api/lineamiento/EliminarLineamiento", Name = "DeleteGuideLine")]
-    public async Task<IActionResult> DeleteDocument([FromBody] DeleteGuidelineCommand request)
+    public async Task<IActionResult> DeleteGuideLine([FromBody] DeleteGuidelineCommand request)
     {
         return Ok(await mediator.Send(request));
     }

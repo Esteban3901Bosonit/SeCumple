@@ -37,7 +37,7 @@ public class DocumentController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("~/api/dispositivo/InsertarDispositivo", Name = "CreateDocument")]
-    public async Task<IActionResult> CreateDocuments([FromBody] CreateDocumentCommand request)
+    public async Task<IActionResult> CreateDocument([FromBody] CreateDocumentCommand request)
     {
         return Ok(await mediator.Send(request));
     }

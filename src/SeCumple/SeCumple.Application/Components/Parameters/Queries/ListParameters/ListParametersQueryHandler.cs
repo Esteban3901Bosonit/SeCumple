@@ -1,5 +1,4 @@
 using MediatR;
-using SeCumple.Application.Components.Documents.Dtos;
 using SeCumple.Application.Components.ParameterDetails.Dtos;
 using SeCumple.Application.Dtos.Request;
 using SeCumple.Application.Dtos.Response;
@@ -33,7 +32,7 @@ public class ListParametersQueryHandler(IUnitOfWork unitOfWork)
         var rounded = Math.Ceiling(Convert.ToDecimal(totalParameters) / Convert.ToDecimal(request.PageSize));
         var totalPages = Convert.ToInt32(rounded);
 
-        var parameteresponse = parameters.Select(d => new ParameterDetailResponse
+        var parameterResponse = parameters.Select(d => new ParameterDetailResponse
         {
             iDetParameterId = d.Id,
             cNombre = d.Name!,
@@ -45,7 +44,7 @@ public class ListParametersQueryHandler(IUnitOfWork unitOfWork)
             Data = new PaginationResponse<ParameterDetailResponse>
             {
                 Count = totalParameters,
-                Data = parameteresponse.ToList(),
+                Data = parameterResponse.ToList(),
                 PageCount = totalPages,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,

@@ -4,11 +4,11 @@ using SeCumple.Application.Dtos.Response;
 using SeCumple.Domain.Entities;
 using SeCumple.Infrastructure.Persistence.Interfaces;
 
-namespace SeCumple.Application.Components.Sectors.Queries.ListSector;
+namespace SeCumple.Application.Components.Sectors.Queries.SelectSector;
 
-public class ListSectorQueryHandler(IUnitOfWork unitOfWork)  : IRequestHandler<ListSectorQuery, ProcessResult<IReadOnlyList<SectorResponse>>>
+public class SelectSectorQueryHandler(IUnitOfWork unitOfWork)  : IRequestHandler<SelectSectorQuery, ProcessResult<IReadOnlyList<SectorResponse>>>
 {
-    public async Task<ProcessResult<IReadOnlyList<SectorResponse>>> Handle(ListSectorQuery request, CancellationToken cancellationToken)
+    public async Task<ProcessResult<IReadOnlyList<SectorResponse>>> Handle(SelectSectorQuery request, CancellationToken cancellationToken)
     {
         var sectors = await unitOfWork.Repository<Sector>().GetAsync(x => x.Status == '1');
 
@@ -25,7 +25,7 @@ public class ListSectorQueryHandler(IUnitOfWork unitOfWork)  : IRequestHandler<L
     }
 }
 
-public class ListSectorQuery: IRequest<ProcessResult<IReadOnlyList<SectorResponse>>>
+public class SelectSectorQuery: IRequest<ProcessResult<IReadOnlyList<SectorResponse>>>
 {
     
 }
