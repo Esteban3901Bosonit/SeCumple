@@ -10,9 +10,9 @@ using SeCumple.Infrastructure.Persistence.Interfaces;
 namespace SeCumple.Application.Components.Parameters.Queries.ListParameters;
 
 public class ListParametersQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<ListParametersQuery, ProcessResult<PaginationResponse<ParameterDetailResponse>>>
+    : IRequestHandler<ListParametersQuery, ProcessResult<PaginationResponse<ParameterResponse>>>
 {
-    public async Task<ProcessResult<PaginationResponse<ParameterDetailResponse>>> Handle(ListParametersQuery request,
+    public async Task<ProcessResult<PaginationResponse<ParameterResponse>>> Handle(ListParametersQuery request,
         CancellationToken cancellationToken)
     {
         var parameterSpecParams = new SpecificationParams
@@ -32,16 +32,16 @@ public class ListParametersQueryHandler(IUnitOfWork unitOfWork)
         var rounded = Math.Ceiling(Convert.ToDecimal(totalParameters) / Convert.ToDecimal(request.PageSize));
         var totalPages = Convert.ToInt32(rounded);
 
-        var parameterResponse = parameters.Select(d => new ParameterDetailResponse
+        var parameterResponse = parameters.Select(d => new ParameterResponse()
         {
-            iDetParameterId = d.Id,
+            iMaeParameter = d.Id,
             cNombre = d.Name!,
             cEstado = d.Status == '1' ? "ACTIVO" : "INACTIVO"
         });
 
-        return new ProcessResult<PaginationResponse<ParameterDetailResponse>>
+        return new ProcessResult<PaginationResponse<ParameterResponse>>
         {
-            Data = new PaginationResponse<ParameterDetailResponse>
+            Data = new PaginationResponse<ParameterResponse>
             {
                 Count = totalParameters,
                 Data = parameterResponse.ToList(),
@@ -55,6 +55,6 @@ public class ListParametersQueryHandler(IUnitOfWork unitOfWork)
 }
 
 public class ListParametersQuery : PaginationRequest,
-    IRequest<ProcessResult<PaginationResponse<ParameterDetailResponse>>>
+    IRequest<ProcessResult<PaginationResponse<ParameterResponse>>>
 {
 }

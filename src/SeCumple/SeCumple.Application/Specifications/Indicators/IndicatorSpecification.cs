@@ -37,7 +37,7 @@ public class IndicatorForCountingSpecification(SpecificationParams indicatorsPar
     (!indicatorsParams.Filters!.ContainsKey("iMovIntervention") ||
      ParseIds(indicatorsParams.Filters["iMovIntervention"]).Contains(x.InterventionId)) &&
     (!indicatorsParams.Filters!.ContainsKey("iDetPlanCumpAnio") ||
-     x.Intervention!.Plan!.PlanAnios.Any(pa =>
+     x.Intervention!.Plan!.PlanAnios!.Any(pa =>
          pa.Id == int.Parse(indicatorsParams.Filters["iDetPlanCumpAnio"]))
     ) &&
     x.Status.Equals('1')

@@ -19,7 +19,7 @@ public class SelectParameterDetailsQueryHandler(IUnitOfWork unitOfWork)
         {
             Data = detailsParameter.Select(d => new ParameterDetailResponse
             {
-                iDetParameterId = d.Id,
+                iDetParameter = d.Id,
                 cNombre = d.Name!,
                 cEstado = d.Status == '1' ? "ACTIVO" : "INACTIVO"
             }).ToList()
