@@ -26,14 +26,14 @@ public class UpdateParameterDetailCommandHandler(IUnitOfWork unitOfWork)
             Data = new ParameterDetailResponse
             {
                 cNombre = parameterDetail.Name,
-                iDetParameterId = parameterDetail.Id,
+                iDetParameter = parameterDetail.Id,
                 cEstado = parameterDetail.Status == '1' ? "ACTIVO" : "INACTIVO"
             }
         };
     }
 }
 
-public abstract class UpdateParameterDetailCommand : CreateParameterDetailCommand
+public class UpdateParameterDetailCommand : CreateParameterDetailCommand
 {
     public int iDetParameter { get; set; }
 }

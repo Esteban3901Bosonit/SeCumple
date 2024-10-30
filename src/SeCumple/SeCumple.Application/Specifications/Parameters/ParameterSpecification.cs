@@ -7,7 +7,7 @@ public class ParameterSpecification : BaseSpecification<Parameter>
     public ParameterSpecification(SpecificationParams parametersParams) : base(
         x =>
             (!parametersParams.Filters!.ContainsKey("cNombre") ||
-             parametersParams.Filters["cNombre"].Contains(x.Name!)) &&
+             x.Name!.Contains(parametersParams.Filters["cNombre"])) &&
             (!parametersParams.Filters.ContainsKey("cEstado") ||
              x.Status.Equals(char.Parse(parametersParams.Filters["cEstado"])))
     )
@@ -20,7 +20,7 @@ public class ParameterSpecification : BaseSpecification<Parameter>
 
 public class ParameterForCountingSpecification(SpecificationParams parametersParams) : BaseSpecification<Parameter>(x =>
     (!parametersParams.Filters!.ContainsKey("cNombre") ||
-     parametersParams.Filters["cNombre"].Contains(x.Name!)) &&
+     x.Name!.Contains(parametersParams.Filters["cNombre"])) &&
     (!parametersParams.Filters.ContainsKey("cEstado") ||
      x.Status.Equals(char.Parse(parametersParams.Filters["cEstado"])))
 );

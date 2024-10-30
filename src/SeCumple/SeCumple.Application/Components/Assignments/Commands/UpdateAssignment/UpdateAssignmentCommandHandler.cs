@@ -38,7 +38,7 @@ public class UpdateAssignmentCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class UpdateAssignmentCommand : CreateAssignmentCommand
+public class UpdateAssignmentCommand : CreateAssignmentCommand
 {
     public int iMovAsignacion { get; set; }
 }

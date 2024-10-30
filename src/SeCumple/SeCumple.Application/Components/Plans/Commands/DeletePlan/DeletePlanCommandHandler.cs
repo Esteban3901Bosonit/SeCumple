@@ -32,7 +32,7 @@ public class DeletePlanCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class DeletePlanCommand : IRequest<ProcessResult<PlanResponse>>
+public class DeletePlanCommand : IRequest<ProcessResult<PlanResponse>>
 {
     public int iDetPlanCumplimiento { get; set; }
     public int iCodUsuarioRegistro { get; set; }

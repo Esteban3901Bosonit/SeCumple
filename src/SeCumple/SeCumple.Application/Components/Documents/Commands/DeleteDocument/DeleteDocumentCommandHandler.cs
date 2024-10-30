@@ -33,7 +33,7 @@ public class DeleteDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
     }
 }
 
-public abstract class DeleteDocumentCommand: IRequest<ProcessResult<DocumentResponse>>
+public class DeleteDocumentCommand: IRequest<ProcessResult<DocumentResponse>>
 {
     public int Id { get; set; }
     public int UserId { get; set; }

@@ -23,14 +23,14 @@ public class DeleteParameterDetailCommandHandler(IUnitOfWork unitOfWork)
             Data = new ParameterDetailResponse
             {
                 cNombre = parameterDetail.Name!,
-                iDetParameterId = parameterDetail.Id,
+                iDetParameter = parameterDetail.Id,
                 cEstado = parameterDetail.Status == '1' ? "ACTIVO" : "INACTIVO"
             }
         };
     }
 }
 
-public abstract class DeleteParameterDetailCommand : IRequest<ProcessResult<ParameterDetailResponse>>
+public class DeleteParameterDetailCommand : IRequest<ProcessResult<ParameterDetailResponse>>
 {
     public int iDetParameter { get; set; }
     public int iCodUsuarioRegistro { get; set; }

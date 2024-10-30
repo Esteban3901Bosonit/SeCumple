@@ -6,16 +6,14 @@ public class DocumentSpecification : BaseSpecification<Document>
 {
     public DocumentSpecification(SpecificationParams documentsParams) : base(
         x =>
-            (!documentsParams.Filters!.ContainsKey("documentTypeIds") || 
-             ParseIds(documentsParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId)) &&
+            (!documentsParams.Filters!.ContainsKey("iTipoDispositivo") || 
+             ParseIds(documentsParams.Filters["iTipoDispositivo"]).Contains(x.DocumentTypeId)) &&
             
             (!documentsParams.Filters.ContainsKey("Active") || 
              x.Status.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
             
-            (!documentsParams.Filters.ContainsKey("DocumentCode") || 
-             x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"])) //&&
-            
-            // x.Status.Equals('0')
+            (!documentsParams.Filters.ContainsKey("cNumDispositivo") || 
+             x.DocumentCode!.Contains(documentsParams.Filters["cNumDispositivo"]))
     )
     {
         AddInclude(x => x.DocumentType!);
@@ -44,13 +42,13 @@ public class DocumentSpecification : BaseSpecification<Document>
                     AddOrderByDescending(x => x.DocumentTypeId!);
                     break;
                 default:
-                    AddOrderBy(x => x.DocumentCode!);
+                    AddOrderBy(x => x.CreationDate!);
                     break;
             }
         }
         else
         {
-            AddOrderByDescending(x => x.DocumentCode!);
+            AddOrderByDescending(x => x.CreationDate!);
         }
     }
 }
@@ -63,7 +61,5 @@ public class DocumentForCountingSpecification(SpecificationParams documentsParam
      x.Active.Equals(char.Parse(documentsParams.Filters["Active"]))) &&
     
     (!documentsParams.Filters.ContainsKey("DocumentCode") || 
-     x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"])) //&&
-            
-    // x.Status.Equals('0')
+     x.DocumentCode!.Contains(documentsParams.Filters["DocumentCode"]))
 );

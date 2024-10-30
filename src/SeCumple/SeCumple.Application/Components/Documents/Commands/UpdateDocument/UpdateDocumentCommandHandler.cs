@@ -37,7 +37,7 @@ public class UpdateDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
     }
 }
 
-public abstract class UpdateDocumentCommand: IRequest<ProcessResult<DocumentResponse>>
+public class UpdateDocumentCommand: IRequest<ProcessResult<DocumentResponse>>
 {
     public int Id { get; set; }
     public string? DocumentCode { get; set; }
