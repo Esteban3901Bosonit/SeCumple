@@ -13,23 +13,23 @@ public class UpdateOrganicUnitCommandHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<OrganicUnitResponse>> Handle(UpdateOrganicUnitCommand request,
         CancellationToken cancellationToken)
     {
-        var sector = await unitOfWork.Repository<OrganicUnit>().GetByIdAsync(request.iMaeOrganicUnit);
+        var organicUnit = await unitOfWork.Repository<OrganicUnit>().GetByIdAsync(request.iMaeOrganicUnit);
 
-        sector.Name = request.cNombre;
-        sector.Acronym = request.cSigla;
-        sector.Status = request.cEstado;
-        sector.ModifiedBy = request.iCodUsuarioRegistro;
+        organicUnit.Name = request.cNombre;
+        organicUnit.Acronym = request.cSigla;
+        organicUnit.Status = request.cEstado;
+        organicUnit.ModifiedBy = request.iCodUsuarioRegistro;
 
-        await unitOfWork.Repository<OrganicUnit>().UpdateAsync(sector);
+        await unitOfWork.Repository<OrganicUnit>().UpdateAsync(organicUnit);
 
         return new ProcessResult<OrganicUnitResponse>
         {
             Data = new OrganicUnitResponse
             {
-                cNombre = sector.Name,
-                iMaeSector = sector.Id,
-                cSigla = sector.Acronym,
-                cEstado = sector.Status == '1' ? "ACTIVO" : "INACTIVO"
+                cNombre = organicUnit.Name,
+                iMaeSector = organicUnit.Id,
+                cSigla = organicUnit.Acronym,
+                cEstado = organicUnit.Status == '1' ? "ACTIVO" : "INACTIVO"
             }
         };
     }

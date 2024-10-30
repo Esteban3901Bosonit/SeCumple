@@ -13,6 +13,14 @@ namespace SeCumple.API.Controllers;
 public class AxisController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [Route("~/api/configuracion/listarEje", Name = "ListAxles")]
+    public async Task<IActionResult> ListAxles(int id)
+    {
+        var query = new GetAxisByDocumentIdQuery { DocumentId = id };
+        return Ok(await mediator.Send(query));
+    }
+    
+    [HttpGet]
     [Route("~/api/Eje/ListarEjeLineamiento", Name = "getAxisByDocumentId")]
     public async Task<IActionResult> GetAxisByDocumentId(int id)
     {

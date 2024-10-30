@@ -28,10 +28,10 @@ public class Plan : Base
     public string? CurrentTitle { get; set; } = PlanMessages.CurrentStatusTitle;
 
     [Column("cTituloDescripAcciones")]
-    public string? ActionDescriptions { get; set; } = PlanMessages.ActionsDescriptionTitle;
+    public string? ActionsDescription { get; set; } = PlanMessages.ActionsDescriptionTitle;
 
     [Column("cTituloDescripAlertas")]
-    public string? AlertDescriptions { get; set; } = PlanMessages.AlertsDescripcionTitle;
+    public string? AlertsDescription { get; set; } = PlanMessages.AlertsDescripcionTitle;
     
     public virtual Document? Document { get; set; }
     public virtual ICollection<Assignment>? Assigments { get; set; }

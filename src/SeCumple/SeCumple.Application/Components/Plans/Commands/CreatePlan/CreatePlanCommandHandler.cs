@@ -16,7 +16,7 @@ public class CreatePlanCommandHandler(IUnitOfWork unitOfWork)
         var plan = new Plan
         {
             Name = request.cNombre,
-            Annotation = request.Observacion,
+            Annotation = request.cObservacion,
             StartDate = request.dFechaInicio,
             EndDate = request.dFechaFin,
             CreatedBy = request.iCodUsuarioRegistro,
@@ -49,7 +49,7 @@ public class CreatePlanCommandHandler(IUnitOfWork unitOfWork)
 public class CreatePlanCommand : IRequest<ProcessResult<PlanResponse>>
 {
     public string? cNombre { get; set; }
-    public string? Observacion { get; set; }
+    public string? cObservacion { get; set; }
     public int iCodUsuarioRegistro { get; set; }
     public int iMaeDispositivo { get; set; }
     public int iTipoDispositivo { get; set; }

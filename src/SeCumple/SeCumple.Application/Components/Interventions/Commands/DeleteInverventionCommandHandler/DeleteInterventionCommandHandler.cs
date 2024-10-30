@@ -9,17 +9,17 @@ namespace SeCumple.Application.Components.Interventions.Commands.DeleteInvervent
 public class DeleteInterventionCommandHandler(IUnitOfWork unitOfWork)
     : IRequestHandler<DeleteInterventionCommand, ProcessResult<InterventionResponse>>
 {
-    public async Task<ProcessResult<InterventionResponse>> Handle(DeleteInterventionCommand request, CancellationToken cancellationToken)
+    public async Task<ProcessResult<InterventionResponse>> Handle(DeleteInterventionCommand request,
+        CancellationToken cancellationToken)
     {
-        
         var intervention = await unitOfWork.Repository<Intervention>()
             .GetEntityAsync(x => x.Id == request.iMovIntervencion);
-        
-        intervention.ModifiedBy=request.iCodUsuarioRegistro;
+
+        intervention.ModifiedBy = request.iCodUsuarioRegistro;
         intervention.Status = '0';
-        
+
         await unitOfWork.Repository<Intervention>().UpdateAsync(intervention);
-        
+
         return new ProcessResult<InterventionResponse>
         {
             Data = new InterventionResponse
@@ -39,11 +39,10 @@ public class DeleteInterventionCommandHandler(IUnitOfWork unitOfWork)
                 cEstado = "ELIMINADO"
             }
         };
-        
     }
 }
 
-public class DeleteInterventionCommand:IRequest<ProcessResult<InterventionResponse>>
+public class DeleteInterventionCommand : IRequest<ProcessResult<InterventionResponse>>
 {
     public int iMovIntervencion { get; set; }
     public int iCodUsuarioRegistro { get; set; }

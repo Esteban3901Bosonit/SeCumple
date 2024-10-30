@@ -12,6 +12,14 @@ namespace SeCumple.API.Controllers;
 public class OrganicUnitController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [Route("~/api/configuracion/ListarUnidadOrganica", Name = "ListOrganicUnit")]
+    public async Task<IActionResult> ListOrganicUnit(int iMaeSector)
+    {
+        var query = new ListOrganicUnitBySectorIdQuery { SectorId = iMaeSector };
+        return Ok(await mediator.Send(query));
+    }
+    
+    [HttpGet]
     [Route("~/api/UnidadOrganica/ListarUnidadOrganica", Name = "ListOrganicUnitBySectorId")]
     public async Task<IActionResult> ListOrganicUnitBySectorId(int iMaeSector)
     {

@@ -6,12 +6,12 @@ using SeCumple.Application.Dtos.Response;
 using SeCumple.Domain.Entities;
 using SeCumple.Infrastructure.Persistence.Interfaces;
 
-namespace SeCumple.Application.Components.Interventions.Commands.EditIntervention;
+namespace SeCumple.Application.Components.Interventions.Commands.UpdateIntervention;
 
-public class EditInterventionCommandHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<EditInterventionCommand, ProcessResult<InterventionResponse>>
+public class UpdateInterventionCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<UpdateInterventionCommand, ProcessResult<InterventionResponse>>
 {
-    public async Task<ProcessResult<InterventionResponse>> Handle(EditInterventionCommand request,
+    public async Task<ProcessResult<InterventionResponse>> Handle(UpdateInterventionCommand request,
         CancellationToken cancellationToken)
     {
         
@@ -59,7 +59,7 @@ public class EditInterventionCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public class EditInterventionCommand : CreateInterventionCommand, IRequest<ProcessResult<InterventionResponse>>
+public class UpdateInterventionCommand : CreateInterventionCommand, IRequest<ProcessResult<InterventionResponse>>
 {
     public int iMovIntervencion { get; set; }
 }

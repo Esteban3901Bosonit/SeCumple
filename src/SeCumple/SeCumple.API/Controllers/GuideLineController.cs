@@ -12,6 +12,14 @@ namespace SeCumple.API.Controllers;
 public class GuideLineController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [Route("~/api/configuracion/ListarLineamiento", Name = "ListGuidelines")]
+    public async Task<IActionResult> ListGuidelines(int id)
+    {
+        var query = new GetGuidelLinesByAxisIdQuery { AxisId = id };
+        return Ok(await mediator.Send(query));
+    }
+    
+    [HttpGet]
     [Route("~/api/lineamiento/ListarLineamiento", Name = "GetGuideLineByAxisId")]
     public async Task<IActionResult> GetGuideLineByAxisId(int id)
     {
