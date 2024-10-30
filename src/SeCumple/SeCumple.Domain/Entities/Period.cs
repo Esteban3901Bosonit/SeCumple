@@ -14,10 +14,11 @@ public class Period : Base
     public int PlanAnioId { get; set; }
     [Column("iTipoMedicion")]
     public int MeasureTypeId { get; set; }
-    [Column("iMaePerioricidad")]
+    [Column("iMaePeriodicidad")]
     public int PeriodicityId { get; set; }
     [Column("iMetaAnual")]
-    public int AnnualGoal { get; set; }
+    public decimal AnnualGoal { get; set; }
     [Column("iLineaBaseAnual")]
-    public int AnnualBaseline { get; set; }
+    public decimal AnnualBaseline { get; set; }
+    public virtual ICollection<Goal>? Goals { get; set; }
 }

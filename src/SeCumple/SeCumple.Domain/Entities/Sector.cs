@@ -12,6 +12,6 @@ public class Sector : Base
     public string? Name { get; set; }
     [Column("cSigla")]
     public string? Acronym { get; set; }
-    [Column("iMaeSector")]
+    [Column("cDescripcionCorta")]
     public string? Description { get; set; }
 }

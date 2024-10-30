@@ -6,7 +6,7 @@ namespace SeCumple.Domain.Entities;
 [Table("MaeParameter")]
 public class Parameter: Base
 {
-    [Column("iDetParameter")]
+    [Column("iMaeParameter")]
     public int Id { get; set; }
     [Column("cNombre")]
     public string? Name { get; set; }

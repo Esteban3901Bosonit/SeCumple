@@ -10,6 +10,7 @@ public class InterventionAssignment : Base
     public int Id { get; set; }
     [Column("iMovAsignacion")]
     public int AssigmentId { get; set; }
-    [Column("iMovIntervecion")]
+    [Column("iMovIntervencion")]
     public int InterventionId { get; set; }
+    public virtual Assignment? Assigment { get; set; }
 }

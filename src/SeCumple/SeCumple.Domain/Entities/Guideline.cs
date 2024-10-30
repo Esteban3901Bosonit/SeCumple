@@ -10,10 +10,11 @@ public class GuideLine : Base
     public int Id { get; set; }
     [Column("iMaeEje")]
     public int AxisId { get; set; }
+    public virtual Axis? Axis { get; set; }
     [Column("cNum")]
     public string? Numeral { get; set; }
     [Column("cDescripcion")]
     public string? Description { get; set; }
     [Column("cValidado")]
-    public string? Validated { get; set; }
+    public char? Validated { get; set; }
 }

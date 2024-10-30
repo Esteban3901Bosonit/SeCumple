@@ -14,4 +14,6 @@ public class OrganicUnit : Base
     public string? Acronym { get; set; }
     [Column("iMaeSector")]
     public int SectorId { get; set; }
+    public virtual Sector? Sector { get; set; }
+
 }

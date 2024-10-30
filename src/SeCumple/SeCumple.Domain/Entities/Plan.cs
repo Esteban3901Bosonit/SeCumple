@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using SeCumple.CrossCutting.Constants;
 using SeCumple.CrossCutting.Entities;
 
 namespace SeCumple.Domain.Entities;
@@ -9,7 +10,8 @@ public class Plan : Base
     [Column("iDetPlanCumplimiento")]
     public int Id { get; set; }
     [Column("iMaeDispositivo")]
-    public int DocumentId { get; set; }      
+    public int DocumentId { get; set; } 
+    
     [Column("cObservacion")]
     public string? Annotation { get; set; }
     [Column("dFechaInicio")]
@@ -23,10 +25,16 @@ public class Plan : Base
     [Column("cNombre")]
     public string? Name { get; set; }
     [Column("cTituloEstadoActual")]
-    public string? CurrentTitle { get; set; }
+    public string? CurrentTitle { get; set; } = PlanMessages.CurrentStatusTitle;
+
     [Column("cTituloDescripAcciones")]
-    public string? ActionDescriptions { get; set; }
+    public string? ActionsDescription { get; set; } = PlanMessages.ActionsDescriptionTitle;
+
     [Column("cTituloDescripAlertas")]
-    public string? AlertDescriptions { get; set; }
+    public string? AlertsDescription { get; set; } = PlanMessages.AlertsDescripcionTitle;
+    
+    public virtual Document? Document { get; set; }
+    public virtual ICollection<Assignment>? Assigments { get; set; }
+    public virtual ICollection<PlanAnio>? PlanAnios { get; set; }
 
 }
