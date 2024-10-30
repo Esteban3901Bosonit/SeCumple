@@ -13,7 +13,7 @@ namespace SeCumple.API.Controllers;
 public class SectorController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    [Route("~/configuracion/ListarSector", Name = "SelectSector")]
+    [Route("~/api/configuracion/ListarSector", Name = "SelectSector")]
     public async Task<IActionResult> SelectSector()
     {
         var query = new SelectSectorQuery();
@@ -39,8 +39,9 @@ public class SectorController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(request));
     }
 
-    [HttpPost("~/api/sector/EliminarSector", Name = "DeleteSector")]
-    public async Task<IActionResult> DeleteSector([FromBody] DeleteSectorCommand request)
+    [HttpPost]
+    [Route("~/api/sector/EliminarSector", Name = "DeleteSector")]
+    public async Task<IActionResult> DeleteSector(DeleteSectorCommand request)
     {
         return Ok(await mediator.Send(request));
     }

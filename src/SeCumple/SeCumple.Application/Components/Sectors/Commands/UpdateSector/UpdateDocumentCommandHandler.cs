@@ -37,7 +37,7 @@ public class UpdateSectorCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class UpdateSectorCommand : CreateSectorCommand
+public class UpdateSectorCommand : CreateSectorCommand
 {
     public int iMaeSector { get; set; }
 }

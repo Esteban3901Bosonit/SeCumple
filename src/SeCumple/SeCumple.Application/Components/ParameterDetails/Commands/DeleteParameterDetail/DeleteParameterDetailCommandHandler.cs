@@ -30,7 +30,7 @@ public class DeleteParameterDetailCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class DeleteParameterDetailCommand : IRequest<ProcessResult<ParameterDetailResponse>>
+public class DeleteParameterDetailCommand : IRequest<ProcessResult<ParameterDetailResponse>>
 {
     public int iDetParameter { get; set; }
     public int iCodUsuarioRegistro { get; set; }

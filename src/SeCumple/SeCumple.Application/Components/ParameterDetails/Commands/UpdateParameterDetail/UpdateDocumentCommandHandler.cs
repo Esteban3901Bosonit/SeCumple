@@ -33,7 +33,7 @@ public class UpdateParameterDetailCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class UpdateParameterDetailCommand : CreateParameterDetailCommand
+public class UpdateParameterDetailCommand : CreateParameterDetailCommand
 {
     public int iDetParameter { get; set; }
 }

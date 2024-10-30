@@ -31,7 +31,7 @@ public class DeleteSectorCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class DeleteSectorCommand : IRequest<ProcessResult<SectorResponse>>
+public class DeleteSectorCommand : IRequest<ProcessResult<SectorResponse>>
 {
     public int iMaeSector { get; set; }
     public int iCodUsuarioRegistro { get; set; }

@@ -31,7 +31,7 @@ public class DeleteOrganicUnitCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class DeleteOrganicUnitCommand : IRequest<ProcessResult<OrganicUnitResponse>>
+public class DeleteOrganicUnitCommand : IRequest<ProcessResult<OrganicUnitResponse>>
 {
     public int iMaeOrganicUnit { get; set; }
     public int iCodUsuarioRegistro { get; set; }
