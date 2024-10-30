@@ -7,6 +7,7 @@ using SeCumple.Application.Components.Plans.Commands.DeletePlan;
 using SeCumple.Application.Components.Plans.Commands.DeletePlanAnio;
 using SeCumple.Application.Components.Plans.Commands.UpdatePlan;
 using SeCumple.Application.Components.Plans.Queries.ListPlan;
+using SeCumple.Application.Components.Plans.Queries.SelectPlan;
 
 namespace SeCumple.API.Controllers;
 
@@ -42,10 +43,10 @@ public class PlanController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(request));
     }
 
-    [HttpGet("select", Name = "SelectPlans")]
+    [HttpGet("~/api/configuracion/ListarPlanCumplimiento", Name = "SelectPlans")]
     public async Task<IActionResult> SelectPlans()
     {
-        var query = new SelectParameterDetailsQuery();
+        var query = new SelectPlanQuery();
         return Ok(await mediator.Send(query));
     }
 
