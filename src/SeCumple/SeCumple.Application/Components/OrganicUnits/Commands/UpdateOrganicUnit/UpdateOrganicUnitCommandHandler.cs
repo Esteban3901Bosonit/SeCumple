@@ -35,7 +35,7 @@ public class UpdateOrganicUnitCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class UpdateOrganicUnitCommand : CreateOrganicUnitCommand
+public class UpdateOrganicUnitCommand : CreateOrganicUnitCommand
 {
     public int iMaeOrganicUnit { get; set; }
 }

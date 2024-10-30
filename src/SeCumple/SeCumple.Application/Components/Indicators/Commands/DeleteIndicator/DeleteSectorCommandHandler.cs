@@ -32,7 +32,7 @@ public class DeleteIndicatorCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class DeleteIndicatorCommand : IRequest<ProcessResult<IndicatorResponse>>
+public class DeleteIndicatorCommand : IRequest<ProcessResult<IndicatorResponse>>
 {
     public int iMovIndicador { get; set; }
     public int iCodUsuarioRegistro { get; set; }

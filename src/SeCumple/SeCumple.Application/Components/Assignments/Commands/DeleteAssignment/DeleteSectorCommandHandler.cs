@@ -30,7 +30,7 @@ public class DeleteAssignmentCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public abstract class DeleteAssignmentCommand : IRequest<ProcessResult<AssignmentResponse>>
+public class DeleteAssignmentCommand : IRequest<ProcessResult<AssignmentResponse>>
 {
     public int iMovAsignacion { get; set; }
     public int iCodUsuarioRegistro { get; set; }
