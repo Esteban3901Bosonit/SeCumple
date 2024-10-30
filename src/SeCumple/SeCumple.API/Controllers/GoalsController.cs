@@ -30,8 +30,8 @@ public class GoalsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    [Route("~/api/configuracion/ListarUnidadMedida", Name = "listDocuments")]
-    public async Task<IActionResult> ListDocuments(int id)
+    [Route("~/api/configuracion/ListarUnidadMedida", Name = "ListarUnidadMedida")]
+    public async Task<IActionResult> ListarUnidadMedida(int id)
     {
         var query = new SelectParameterDetailsQuery() { ParentId = (int)ParameterEnum.MeasurementUnit };
         return Ok(await mediator.Send(query));
