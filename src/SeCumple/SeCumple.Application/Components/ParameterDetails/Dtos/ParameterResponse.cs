@@ -1,8 +1,8 @@
 namespace SeCumple.Application.Components.ParameterDetails.Dtos;
 
-public class ParameterDetailResponse
+public class ParameterResponse
 {
-    public int iDetParameter { get; set; }
+    public int iMaeParameter { get; set; }
     public string cNombre { get; set; }
     public string cEstado { get; set; }
 

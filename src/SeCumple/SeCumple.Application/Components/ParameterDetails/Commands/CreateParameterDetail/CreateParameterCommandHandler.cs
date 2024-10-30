@@ -23,7 +23,7 @@ public class CreateParameterDetailCommandHandler(IUnitOfWork unitOfWork): IReque
         {
             Data = new ParameterDetailResponse
             {
-                iDetParameterId = parameter.Id,
+                iDetParameter = parameter.Id,
                 cNombre = parameter.Name,
                 cEstado = parameter.Status == '1' ? "ACTIVO" : "INACTIVO"
             }

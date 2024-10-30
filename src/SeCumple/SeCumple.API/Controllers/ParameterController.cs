@@ -27,19 +27,19 @@ public class ParameterController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(query));
     }
 
-    [HttpPost("~/api/lineamiento/InsertarParameterDet", Name = "CreateParameterDetail")]
+    [HttpPost("~/api/parameter/InsertarParameterDet", Name = "CreateParameterDetail")]
     public async Task<IActionResult> CreateParameterDetail([FromBody] CreateParameterDetailCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
-    [HttpPost("~/api/lineamiento/ActulizarParameter", Name = "UpdateParameterDetail")]
+    [HttpPost("~/api/parameter/ActulizarParameter", Name = "UpdateParameterDetail")]
     public async Task<IActionResult> UpdateParameterDetail([FromBody] UpdateParameterDetailCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
-    [HttpPost("~/api/lineamiento/EliminarParameterDet", Name = "DeleteParameterDetail")]
+    [HttpPost("~/api/parameter/EliminarParameterDet", Name = "DeleteParameterDetail")]
     public async Task<IActionResult> DeleteParameterDetail([FromBody] DeleteParameterDetailCommand request)
     {
         return Ok(await mediator.Send(request));
