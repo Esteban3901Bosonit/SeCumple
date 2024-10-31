@@ -11,45 +11,45 @@ namespace SeCumple.API.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class InteventionController(IMediator mediator) : ControllerBase
+public class InterventionController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [Route("~/gestion/ListarIntervencion", Name = "ListIntervention")]
+    [Route("~/api/gestion/ListarIntervencion", Name = "ListIntervention")]
     public async Task<IActionResult> ListIntervention(ListInterventionQuery request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost]
-    [Route("~/gestion/insertarIntervencion", Name = "CreateIntervention")]
+    [Route("~/api/gestion/insertarIntervencion", Name = "CreateIntervention")]
     public async Task<IActionResult> CreateIntervention(CreateInterventionCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost]
-    [Route("~/gestion/EditarIntervencion", Name = "updateIntervention")]
+    [Route("~/api/gestion/EditarIntervencion", Name = "updateIntervention")]
     public async Task<IActionResult> UpdateIntervention(UpdateInterventionCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost]
-    [Route("~/gestion/EliminarIntervencion", Name = "DeleteIntervention")]
+    [Route("~/api/gestion/EliminarIntervencion", Name = "DeleteIntervention")]
     public async Task<IActionResult> EditIntervention(DeleteInterventionCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost]
-    [Route("~/gestion/AsignarIntervencion", Name = "AssignIntervention")]
+    [Route("~/api/gestion/AsignarIntervencion", Name = "AssignIntervention")]
     public async Task<IActionResult> AssignIntervention(AssignInterventionCommand request)
     {
         return Ok(await mediator.Send(request));
     }
 
     [HttpPost]
-    [Route("~/gestion/ReAsignarIntervencion", Name = "ReassignIntervention")]
+    [Route("~/api/gestion/ReAsignarIntervencion", Name = "ReassignIntervention")]
     public async Task<IActionResult> ReassignIntervention(ReassignInterventionCommand request)
     {
         return Ok(await mediator.Send(request));
