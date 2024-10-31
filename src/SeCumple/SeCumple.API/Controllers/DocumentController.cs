@@ -15,7 +15,7 @@ namespace SeCumple.API.Controllers;
 public class DocumentController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [Route("~/api/configuracion/ListarDispositivo", Name = "ListDocuments")]    
+    [Route("~/api/configuracion/ListarDispositivo", Name = "ListDocumentsConf")]    
     public async Task<IActionResult> ListDocumentsConf(ListDocumentQuery request)
     {
         return Ok(await mediator.Send(request));
