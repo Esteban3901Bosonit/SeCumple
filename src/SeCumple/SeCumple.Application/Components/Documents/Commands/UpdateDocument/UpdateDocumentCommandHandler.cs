@@ -32,7 +32,8 @@ public class UpdateDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
                 iTipoDispositivo = document.DocumentTypeId,
                 DocumentType = document.DocumentType?.Name,
                 cLink = document.Url,
-                cEstado = document.Active == '1' ? "SI" : "NO"
+                cEstVigencia = document.Active.ToString(),
+                cEstado = document.Status.ToString()
             }
         };
     }

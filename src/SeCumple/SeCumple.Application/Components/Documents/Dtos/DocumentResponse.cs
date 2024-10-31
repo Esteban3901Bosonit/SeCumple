@@ -8,5 +8,6 @@ public class DocumentResponse
     public int iTipoDispositivo { get; set; }
     public string? DocumentType { get; set; }
     public string? cLink { get; set; } 
+    public string? cEstVigencia { get; set; }
     public string? cEstado { get; set; }
 }
