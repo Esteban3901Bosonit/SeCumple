@@ -50,7 +50,7 @@ public class PlanController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(query));
     }
 
-    [HttpPost]
+    [HttpGet]
     [Route("~/api/gestion/ListarPlanCumplimientoAnio", Name = "ListPlanAnio")]
     public async Task<IActionResult> ListPlanAnio(int id)
     {
