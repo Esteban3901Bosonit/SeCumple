@@ -24,7 +24,20 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             OrganicUnitId = request.iMaeUnidadOrganica,
             AssignmentStatusId =
                 (await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == "NO ASIGNADO")).Id,
-            InterventionStatusId = interventionStatus.Id
+            InterventionStatusId = interventionStatus.Id,
+            SectorIds = string.Join(",", request.iMaeSectores!),
+            SourceIds = string.Join(",", request.iFuente!),
+            RegionTypeId = request.iTipoRegion,
+            RegionIds = string.Join(",", request.iMaeRegion!),
+            ProvinceIds = string.Join(",", request.iMaeProvincia!),
+            DistrictIds = string.Join(",", request.iMaeDistrito!),
+            InterventionTypeId = request.iTipoIntervencion,
+            OtherInterventionType = request.cOtroTipoIntervencion!,
+            SubInterventionTypeId = request.iSubTipoIntervencion,
+            PriorityId = request.iPrioridad,
+            UbigeoCode = request.cCodigoUbigeo,
+            PCGCode = request.cCodigoPCG,
+            CUI = request.cCUI
         };
 
         await unitOfWork.Repository<Intervention>().AddAsync(intervention);
@@ -54,9 +67,17 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
                 cNumLineamiento = intervention.GuideLine!.Numeral!,
                 iMaeUnidadOrganica = intervention.OrganicUnitId,
                 cNombreUnidadOrganica = intervention.OrganicUnit!.Name!,
-                IMaeSector = intervention.OrganicUnit!.SectorId!,
+                iMaeSector = intervention.OrganicUnit!.SectorId!,
                 cNombreSector = intervention.OrganicUnit!.Sector!.Name!,
-                cEstado = interventionStatus.Name!
+                cEstado = intervention.Status.ToString(),
+                cEstadoIntervencion = interventionStatus.Name!,
+                iTipoIntervencion = intervention.InterventionTypeId,
+                iSubTipoIntervencion = intervention.SubInterventionTypeId,
+                cCodigoUbigeo = intervention.UbigeoCode,
+                iFuente = intervention.SourceIds!.Split(',').Select(int.Parse).ToArray(),
+                iPrioridad = intervention.PriorityId,
+                cCodigoPCG = intervention.PCGCode,
+                cCUI = intervention.CUI
             }
         };
     }
@@ -69,4 +90,17 @@ public class CreateInterventionCommand : IRequest<ProcessResult<InterventionResp
     public int iDetPlanCumplimiento { get; set; }
     public int iMaeLineamiento { get; set; }
     public int iMaeUnidadOrganica { get; set; }
+    public int[]? iMaeSectores { get; set; }
+    public int[]? iFuente { get; set; }
+    public int? iTipoRegion { get; set; }
+    public int[]? iMaeRegion { get; set; }
+    public int[]? iMaeProvincia { get; set; }
+    public int[]? iMaeDistrito { get; set; }
+    public int? iTipoIntervencion { get; set; }
+    public string? cOtroTipoIntervencion { get; set; }
+    public int? iSubTipoIntervencion { get; set; }
+    public int? iPrioridad { get; set; }
+    public string? cCodigoUbigeo { get; set; }
+    public string? cCodigoPCG { get; set; }
+    public string? cCUI { get; set; }
 }

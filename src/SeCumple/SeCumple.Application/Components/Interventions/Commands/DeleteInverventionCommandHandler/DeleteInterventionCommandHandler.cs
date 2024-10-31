@@ -34,7 +34,7 @@ public class DeleteInterventionCommandHandler(IUnitOfWork unitOfWork)
                 cNumLineamiento = intervention.GuideLine!.Numeral!,
                 iMaeUnidadOrganica = intervention.OrganicUnitId,
                 cNombreUnidadOrganica = intervention.OrganicUnit!.Name!,
-                IMaeSector = intervention.OrganicUnit!.SectorId!,
+                iMaeSector = intervention.OrganicUnit!.SectorId!,
                 cNombreSector = intervention.OrganicUnit!.Sector!.Name!,
                 cEstado = "ELIMINADO"
             }

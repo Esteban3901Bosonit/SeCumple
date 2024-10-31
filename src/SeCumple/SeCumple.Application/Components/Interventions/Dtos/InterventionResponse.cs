@@ -10,9 +10,18 @@ public class InterventionResponse
     public int iMaeLineamiento { get; set; }
     public string cNumLineamiento { get; set; }
     public string cNombreLineamiento { get; set; }
-    public int IMaeSector { get; set; }
+    public int iMaeSector { get; set; }
     public string cNombreSector { get; set; }
     public int iMaeUnidadOrganica { get; set; }
     public string cNombreUnidadOrganica { get; set; }
     public string cEstado { get; set; }
+    public string cEstadoIntervencion { get; set; }
+    public string? cCUI { get; set; }
+    public string? cCodigoPCG { get; set; }
+    public int? iTipoIntervencion { get; set; }
+    public int? iSubTipoIntervencion { get; set; }
+    public string? cCodigoUbigeo { get; set; }
+    public int[]? iFuente { get; set; }
+    public int? iPrioridad { get; set; }
+
 }

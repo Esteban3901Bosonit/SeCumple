@@ -44,9 +44,16 @@ public class ListInterventionQueryHandler(IUnitOfWork unitOfWork)
             cNumLineamiento = i.GuideLine!.Numeral!,
             iMaeUnidadOrganica = i.OrganicUnitId,
             cNombreUnidadOrganica = i.OrganicUnit!.Name!,
-            IMaeSector = i.OrganicUnit!.SectorId!,
+            iMaeSector = i.OrganicUnit!.SectorId!,
             cNombreSector = i.OrganicUnit!.Sector!.Name!,
-            cEstado = unitOfWork.Repository<ParameterDetail>().GetByIdAsync(i.InterventionStatusId).Result.Name!
+            cEstado = i.Status.ToString(),
+            iTipoIntervencion = i.InterventionTypeId,
+            iSubTipoIntervencion = i.SubInterventionTypeId,
+            cCodigoUbigeo = i.UbigeoCode,
+            iFuente = i.SourceIds!.Split(',').Select(int.Parse).ToArray(),
+            iPrioridad = i.PriorityId,
+            cCodigoPCG = i.PCGCode,
+            cCUI = i.CUI
         });
 
         return new ProcessResult<PaginationResponse<InterventionResponse>>
