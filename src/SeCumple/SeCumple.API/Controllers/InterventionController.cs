@@ -6,6 +6,7 @@ using SeCumple.Application.Components.Interventions.Commands.DeleteInverventionC
 using SeCumple.Application.Components.Interventions.Commands.ReassignIntervention;
 using SeCumple.Application.Components.Interventions.Commands.UpdateIntervention;
 using SeCumple.Application.Components.Interventions.Queries.ListIntervention;
+using SeCumple.Application.Components.Interventions.Queries.ListLocations;
 
 namespace SeCumple.API.Controllers;
 
@@ -53,5 +54,13 @@ public class InterventionController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> ReassignIntervention(ReassignInterventionCommand request)
     {
         return Ok(await mediator.Send(request));
+    }
+    
+    [HttpGet]
+    [Route("~/api/configuracion/Localizaciones", Name = "listLocations")]
+    public async Task<IActionResult> ListLocations()
+    {
+        var query = new ListLocationsQuery();
+        return Ok(await mediator.Send(query));
     }
 }
