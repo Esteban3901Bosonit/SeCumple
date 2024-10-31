@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace SeCumple.Application.Components.Documents.Dtos;
 
 public class DocumentResponse

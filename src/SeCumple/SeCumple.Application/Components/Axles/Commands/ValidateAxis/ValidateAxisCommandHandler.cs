@@ -18,25 +18,21 @@ public class ValidateAxisCommandHandler(IUnitOfWork unitOfWork)
 
         var axles = await unitOfWork.Repository<Axis>()
             .GetAsync(x => x.DocumentId == request.iMaeDispositivo, null, includes);
-
-        var updateTasks = new List<Task>();
-
+        
         foreach (var axis in axles)
         {
             axis.Validated = '1';
             axis.ModifiedBy = request.iCodUsuarioRegistro;
-            updateTasks.Add(unitOfWork.Repository<Axis>().UpdateAsync(axis));
+            await unitOfWork.Repository<Axis>().UpdateAsync(axis);
 
             if (axis.GuideLines == null) continue;
             foreach (var guideLine in axis.GuideLines)
             {
                 guideLine.Validated = '1';
                 guideLine.ModifiedBy = request.iCodUsuarioRegistro;
-                updateTasks.Add(unitOfWork.Repository<GuideLine>().UpdateAsync(guideLine));
+                await unitOfWork.Repository<GuideLine>().UpdateAsync(guideLine);
             }
         }
-
-        await Task.WhenAll(updateTasks);
 
         return new ProcessResult<string>
         {
