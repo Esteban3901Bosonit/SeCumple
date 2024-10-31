@@ -12,13 +12,13 @@ public class CreateDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
     {
         var document = new Document
         {
-            DocumentCode = request.DocumentCode,
-            DocumentDate = request.DocumentDate.Date,
-            DocumentTypeId = request.DocumentTypeId,
-            Url = request.Url,
-            Validated = request.Validated,
-            Active = request.Active,
-            CreatedBy = request.UserId
+            DocumentCode = request.cNumDispositivo,
+            DocumentDate = request.dFechaDispositivo.Date,
+            DocumentTypeId = request.iTipoDispositivo,
+            Url = request.cLink,
+            Validated = request.iValidado,
+            Active = request.cEstVigencia,
+            CreatedBy = request.iCodUsuarioRegistro
         };
         
         await unitOfWork.Repository<Document>().AddAsync(document);
@@ -41,11 +41,11 @@ public class CreateDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
 
 public class CreateDocumentCommand: IRequest<ProcessResult<DocumentResponse>>
 {
-    public string? DocumentCode { get; set; }
-    public DateTime DocumentDate { get; set; }
-    public int DocumentTypeId { get; set; }
-    public string? Url { get; set; }
-    public char Active { get; set; } = '0';
-    public char Validated { get; set; } = '0';
-    public int UserId { get; set; }
+    public string? cNumDispositivo { get; set; }
+    public DateTime dFechaDispositivo { get; set; }
+    public int iTipoDispositivo { get; set; }
+    public string? cLink { get; set; }
+    public char cEstVigencia { get; set; } = '0';
+    public char iValidado { get; set; } = '0';
+    public int iCodUsuarioRegistro { get; set; }
 }
