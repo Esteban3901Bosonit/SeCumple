@@ -1,6 +1,7 @@
 using MediatR;
 using SeCumple.Application.Components.OrganicUnits.Dtos;
 using SeCumple.Application.Dtos.Response;
+using SeCumple.CrossCutting.Exceptions;
 using SeCumple.Domain.Entities;
 using SeCumple.Infrastructure.Persistence.Interfaces;
 
@@ -13,6 +14,10 @@ public class DeleteOrganicUnitCommandHandler(IUnitOfWork unitOfWork)
         CancellationToken cancellationToken)
     {
         var organicUnit = await unitOfWork.Repository<OrganicUnit>().GetByIdAsync(request.iMaeOrganicUnit);
+        if (organicUnit == null)
+        {
+            throw new Exception("Unidad Organica no existe");
+        }
         organicUnit.Status = '0';
         organicUnit.ModifiedBy = request.iCodUsuarioRegistro;
 

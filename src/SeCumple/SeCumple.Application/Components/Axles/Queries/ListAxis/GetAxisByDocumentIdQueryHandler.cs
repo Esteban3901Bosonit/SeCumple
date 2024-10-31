@@ -30,7 +30,7 @@ public class GetAxisByDocumentIdQueryHandler(IUnitOfWork unitOfWork)
                 cTitulo = a.Title!,
                 cNum = a.Numeral!,
                 iMaeEje = a.Id,
-                listLineamiento = a.GuideLines?.Select(g => new GuideLineResponse
+                listLineamiento = a.GuideLines?.Where(g => g.Status == '1').Select(g => new GuideLineResponse
                 {
                     cEstado = g.Status.ToString(),
                     cNum = g.Numeral!,

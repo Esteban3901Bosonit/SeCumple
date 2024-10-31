@@ -19,7 +19,8 @@ public class CreateAxisCommandHandler(IUnitOfWork unitOfWork)
             Title = request.cTitulo,
             Description = request.cDescripcion,
             CreatedBy = request.iCodUsuarioRegistro,
-            Validated = '0'
+            Validated = '0',
+            Status = '1'
         };
 
         await unitOfWork.Repository<Axis>().AddAsync(axis);
