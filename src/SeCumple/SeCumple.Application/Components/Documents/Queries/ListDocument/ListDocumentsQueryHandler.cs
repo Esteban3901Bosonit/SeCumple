@@ -40,7 +40,7 @@ public class ListDocumentsQueryHandler(IUnitOfWork unitOfWork)
             iTipoDispositivo = d.DocumentTypeId,
             DocumentType = d.DocumentType?.Name,
             cLink = d.Url,
-            cEstado = d.Active == '1' ? "SI" : "NO"
+            cEstado = d.Active.ToString()
         });
         
         return new ProcessResult<PaginationResponse<DocumentResponse>>
