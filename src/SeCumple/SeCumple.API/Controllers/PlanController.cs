@@ -6,6 +6,7 @@ using SeCumple.Application.Components.Plans.Commands.CreatePlanAnio;
 using SeCumple.Application.Components.Plans.Commands.DeletePlan;
 using SeCumple.Application.Components.Plans.Commands.DeletePlanAnio;
 using SeCumple.Application.Components.Plans.Commands.UpdatePlan;
+using SeCumple.Application.Components.Plans.Queries.GetPlanAnioByPlanId;
 using SeCumple.Application.Components.Plans.Queries.ListPlan;
 using SeCumple.Application.Components.Plans.Queries.SelectPlan;
 
@@ -54,7 +55,7 @@ public class PlanController(IMediator mediator) : ControllerBase
     [Route("~/api/gestion/ListarPlanCumplimientoAnio", Name = "ListPlanAnio")]
     public async Task<IActionResult> ListPlanAnio(int id)
     {
-        var query = new SelectParameterDetailsQuery();
+        var query = new GetPlanAnioByPlanIdQuery { PlanId = id };
         return Ok(await mediator.Send(query));
     }
 

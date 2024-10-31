@@ -20,9 +20,9 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
         };
 
         var plan = await unitOfWork.Repository<Plan>()
-            .GetEntityAsync(x => x.Id == request.iMovPlanCumplimiento, includes);
+            .GetEntityAsync(x => x.Id == request.iDetPlanCumplimiento, includes);
 
-        plan.Name = request.cNombre;
+         plan.Name = request.cNombre;
         plan.DocumentId = request.iMaeDispositivo;
         plan.DocumentTypeId = request.iTipoDispositivo;
         plan.Annotation = request.cObservacion;
@@ -70,7 +70,7 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
 
 public class UpdatePlanCommand : CreatePlanCommand
 {
-    public int iMovPlanCumplimiento { get; set; }
+    public int iDetPlanCumplimiento { get; set; }
     public string cTituloEstadoActual { get; set; }
     public string cTituloDescripAcciones { get; set; }
     public string cTituloDescripAlertas { get; set; }
