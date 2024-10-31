@@ -50,7 +50,7 @@ public class ListInterventionQueryHandler(IUnitOfWork unitOfWork)
             iTipoIntervencion = i.InterventionTypeId,
             iSubTipoIntervencion = i.SubInterventionTypeId,
             cCodigoUbigeo = i.UbigeoCode,
-            iFuente = i.SourceIds!.Split(',').Select(int.Parse).ToArray(),
+            iFuente = i.SourceIds != null ? i.SourceIds!.Split(',').Select(int.Parse).ToArray() : null,
             iPrioridad = i.PriorityId,
             cCodigoPCG = i.PCGCode,
             cCUI = i.CUI
