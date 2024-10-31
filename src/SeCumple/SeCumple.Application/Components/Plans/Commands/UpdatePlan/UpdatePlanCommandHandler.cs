@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using MediatR;
 using SeCumple.Application.Components.Plans.Commands.CreatePlan;
 using SeCumple.Application.Components.Plans.Dtos;
@@ -13,7 +14,13 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<PlanResponse>> Handle(UpdatePlanCommand request,
         CancellationToken cancellationToken)
     {
-        var plan = await unitOfWork.Repository<Plan>().GetByIdAsync(request.iMovPlanCumplimiento);
+        var includes = new List<Expression<Func<Plan, object>>>
+        {
+            x => x.Sectors!
+        };
+
+        var plan = await unitOfWork.Repository<Plan>()
+            .GetEntityAsync(x => x.Id == request.iMovPlanCumplimiento, includes);
 
         plan.Name = request.cNombre;
         plan.DocumentId = request.iMaeDispositivo;
@@ -25,6 +32,28 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
         plan.CurrentTitle = request.cTituloEstadoActual;
         plan.ActionsDescription = request.cTituloDescripAcciones;
         plan.AlertsDescription = request.cTituloDescripAlertas;
+
+        var sectorToRemove = plan.Sectors!.Where(x => !request.iMaeSector.Contains(x.SectorId)).ToList();
+        var newSectors = request.iMaeSector.Except(plan.Sectors!.Select(x => x.SectorId)).ToList();
+
+        foreach (var sector in sectorToRemove)
+        {
+            sector.Status = '0';
+            sector.ModifiedBy = request.iCodUsuarioRegistro;
+            await unitOfWork.Repository<SectorsPlan>().UpdateAsync(sector);
+        }
+
+        foreach (var sector in newSectors)
+        {
+            var sectorPlan = new SectorsPlan
+            {
+                PlanId = plan.Id,
+                SectorId = sector,
+                CreatedBy = request.iCodUsuarioRegistro
+            };
+
+            await unitOfWork.Repository<SectorsPlan>().AddAsync(sectorPlan);
+        }
 
         await unitOfWork.Repository<Plan>().UpdateAsync(plan);
 

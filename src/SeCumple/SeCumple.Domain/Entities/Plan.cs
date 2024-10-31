@@ -36,5 +36,6 @@ public class Plan : Base
     public virtual Document? Document { get; set; }
     public virtual ICollection<Assignment>? Assigments { get; set; }
     public virtual ICollection<PlanAnio>? PlanAnios { get; set; }
+    public virtual ICollection<SectorsPlan>? Sectors { get; set; }
 
 }

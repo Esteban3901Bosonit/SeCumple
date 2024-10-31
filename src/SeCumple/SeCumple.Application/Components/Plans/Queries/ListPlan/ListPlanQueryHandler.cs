@@ -45,7 +45,8 @@ public class ListPlanQueryHandler(IUnitOfWork unitOfWork)
             cNombreDispositivo = p.Document!.DocumentCode!,
             dFechaInicio = p.StartDate,
             dFechaFin = p.EndDate,
-            cEstado = p.Status.ToString()
+            cEstado = p.Status.ToString(),
+            Sectors = p.Sectors!.Select(x => x.SectorId).ToArray()
         });
 
         return new ProcessResult<PaginationResponse<PlanResponse>>

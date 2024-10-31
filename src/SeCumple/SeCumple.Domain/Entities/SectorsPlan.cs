@@ -11,6 +11,7 @@ public class SectorsPlan: Base
     public int Id { get; set; }
     [Column("iDetPlanCumplimiento")]
     public int PlanId { get; set; }
+    public virtual Plan Plan { get; set; }
     [Column("iMaeSector")]
     public int SectorId { get; set; }
 }

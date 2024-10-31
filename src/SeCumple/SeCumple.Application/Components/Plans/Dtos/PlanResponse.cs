@@ -10,4 +10,5 @@ public class PlanResponse
     public string cObservacion { get; set; }
     public DateTime dFechaInicio { get; set; }
     public DateTime dFechaFin { get; set; }
+    public int[]? Sectors { get; set; }
 }
