@@ -4,6 +4,7 @@ using SeCumple.Application.Dtos.Request;
 using SeCumple.Application.Dtos.Response;
 using SeCumple.Application.Specifications;
 using SeCumple.Application.Specifications.Plans;
+using SeCumple.CrossCutting.Enums;
 using SeCumple.Domain.Entities;
 using SeCumple.Infrastructure.Persistence.Interfaces;
 
@@ -32,14 +33,19 @@ public class ListPlanQueryHandler(IUnitOfWork unitOfWork)
         var rounded = Math.Ceiling(Convert.ToDecimal(totalPlans) / Convert.ToDecimal(request.PageSize));
         var totalPages = Convert.ToInt32(rounded);
 
-        var planResponse = plans.Select(p => new PlanResponse()
+        var statusPlan = await unitOfWork.Repository<ParameterDetail>()
+            .GetAsync(x => x.ParentId == (int)ParameterEnum.PlanStatus);
+
+        var planResponse = plans.Select(p => new PlanResponse
         {
+            iDetPlanCumplimiento = p.Id,
             cNombre = p.Name!,
             cObservacion = p.Annotation!,
-            cNombreEstado = p.PlanStatusId.ToString(), //todo: extraer desde detaparameter
+            cNombreEstado = statusPlan.FirstOrDefault(x => x.Id == p.PlanStatusId)!.Name!,
             cNombreDispositivo = p.Document!.DocumentCode!,
             dFechaInicio = p.StartDate,
-            dFechaFin = p.EndDate
+            dFechaFin = p.EndDate,
+            cEstado = p.Status.ToString()
         });
 
         return new ProcessResult<PaginationResponse<PlanResponse>>
