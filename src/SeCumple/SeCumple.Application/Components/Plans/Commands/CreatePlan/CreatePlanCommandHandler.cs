@@ -27,6 +27,18 @@ public class CreatePlanCommandHandler(IUnitOfWork unitOfWork)
         };
 
         await unitOfWork.Repository<Plan>().AddAsync(plan);
+        
+        foreach (var sectorId in request.iMaeSector)
+        {
+            var sectorPlan = new SectorsPlan
+            {
+                PlanId = plan.Id,
+                SectorId = sectorId,
+                CreatedBy = request.iCodUsuarioRegistro
+            };
+
+            await unitOfWork.Repository<SectorsPlan>().AddAsync(sectorPlan);
+        }
 
         var document = await unitOfWork.Repository<Document>().GetByIdAsync(plan.DocumentId);
 
@@ -55,4 +67,5 @@ public class CreatePlanCommand : IRequest<ProcessResult<PlanResponse>>
     public int iTipoDispositivo { get; set; }
     public DateTime dFechaInicio { get; set; }
     public DateTime dFechaFin { get; set; }
+    public int[] iMaeSector { get; set; }
 }

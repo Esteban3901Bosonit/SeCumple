@@ -15,6 +15,7 @@ public class PlanSpecification : BaseSpecification<Plan>
     {
         AddInclude(x => x.Document!);
         AddInclude(x => x.Assigments!);
+        AddInclude(x => x.Sectors!.Where(y => y.Status == '1'));
         ApplyPaging(plansParams.PageSize * (plansParams.PageIndex - 1), plansParams.PageSize);
 
         if (!string.IsNullOrEmpty(plansParams.Sort))
