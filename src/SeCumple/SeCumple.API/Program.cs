@@ -5,6 +5,15 @@ using SeCumple.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
+
 // Add services to the container.
 builder.Services.Configure<SettingOptions>(builder.Configuration.GetSection("Settings"));
 
@@ -29,6 +38,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseMiddleware<ExceptionMiddleware>();
 
