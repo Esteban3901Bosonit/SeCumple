@@ -1,5 +1,4 @@
 using MediatR;
-using SeCumple.Application.Components.Assignments.Commands.CreateAssignment;
 using SeCumple.Application.Components.Assignments.Dtos;
 using SeCumple.Application.Dtos.Response;
 using SeCumple.Domain.Entities;
@@ -38,7 +37,13 @@ public class UpdateAssignmentCommandHandler(IUnitOfWork unitOfWork)
     }
 }
 
-public class UpdateAssignmentCommand : CreateAssignmentCommand
+public class UpdateAssignmentCommand : IRequest<ProcessResult<AssignmentResponse>>
 {
     public int iMovAsignacion { get; set; }
+    public int iDetPlanCumplimiento { get; set; }
+    public int iMaeSector { get; set; }
+    public int iCodUsuario { get; set; }
+    public int iRol { get; set; }
+    public int iCodUsuarioRegistro { get; set; }
+    public string cUserName { get; set; }
 }
