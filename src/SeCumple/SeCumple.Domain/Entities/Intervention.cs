@@ -24,5 +24,31 @@ public class Intervention : Base
     public int AssignmentStatusId { get; set; }
     [Column("iEstadoIntervencion")]
     public int InterventionStatusId { get; set; }
+    [Column("iMaeSector")]
+    public string? SectorIds { get; set; }
+    [Column("iFuente")]
+    public string? SourceIds { get; set; }
+    [Column("iTipoRegion")]
+    public int? RegionTypeId { get; set; }
+    [Column("iMaeRegion")]
+    public string? RegionIds { get; set; }
+    [Column("iMaeProvincia")]
+    public string? ProvinceIds { get; set; }
+    [Column("iMaeDistrito")]
+    public string? DistrictIds { get; set; }
+    [Column("iTipoIntervencion")]
+    public int? InterventionTypeId { get; set; }
+    [Column("cOtroTipoIntervencion")]
+    public string? OtherInterventionType { get; set; }
+    [Column("iSubTipoIntervencion")]
+    public int? SubInterventionTypeId { get; set; }
+    [Column("iPrioridad")]
+    public int? PriorityId { get; set; }
+    [Column("cCodigoUbigeo")]
+    public string? UbigeoCode { get; set; }
+    [Column("cCodigoPCG")]
+    public string? PCGCode { get; set; }
+    [Column("cCUI")]
+    public string? CUI { get; set; }
     public virtual ICollection<InterventionAssignment>? AssignedUsers { get; set; }
 }

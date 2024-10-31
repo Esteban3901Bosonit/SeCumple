@@ -1,4 +1,3 @@
-using System.Numerics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SeCumple.CrossCutting.Entities;
@@ -108,6 +107,7 @@ public class SeCumpleDbContext : DbContext
         });
         modelBuilder.Entity<GuideLine>();
         modelBuilder.Entity<Indicator>();
+        modelBuilder.Entity<Alert>();
         modelBuilder.Entity<Period>(e =>
         {
             e.HasMany(p => p.Goals).WithOne(g => g.Period)
