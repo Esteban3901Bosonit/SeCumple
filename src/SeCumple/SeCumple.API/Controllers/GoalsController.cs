@@ -38,14 +38,6 @@ public class GoalsController(IMediator mediator) : ControllerBase
     }
     
     [HttpGet]
-    [Route("~/api/configuracion/ListarPeriodicidad", Name = "ListPeriodicity")]
-    public async Task<IActionResult> ListPeriodicity(int id)
-    {
-        var query = new SelectParameterDetailsQuery() { ParentId = (int)ParameterEnum.Periodicity };
-        return Ok(await mediator.Send(query));
-    }
-    
-    [HttpGet]
     [Route("~/api/configuracion/ListarEstadoMetaCumplida", Name = "ListarEstadoMetaCumplida")]
     public async Task<IActionResult> ListarEstadoMetaCumplida(int id)
     {
@@ -53,13 +45,6 @@ public class GoalsController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(query));
     }
     
-    [HttpGet]
-    [Route("~/api/configuracion/ListarTipoMedicion", Name = "ListarTipoMedicion")]
-    public async Task<IActionResult> ListarTipoMedicion(int id)
-    {
-        var query = new SelectParameterDetailsQuery() { ParentId = (int)ParameterEnum.MeasurementType };
-        return Ok(await mediator.Send(query));
-    }
     // [HttpPost]
     // [Route("~/api/gestion/EditarMetas", Name = "UpdateIndicator")]
     // public async Task<IActionResult> UpdateIndicator(UpdateIndicatorCommand request)
