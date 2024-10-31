@@ -4,6 +4,7 @@ public class PlanResponse
 {
     public int? iDetPlanCumplimiento { get; set; }
     public string cNombre { get; set; }
+    public int iMaeDispositivo { get; set; }
     public string cNombreDispositivo { get; set; }
     public string cNombreEstado { get; set; }
     public string cEstado { get; set; }

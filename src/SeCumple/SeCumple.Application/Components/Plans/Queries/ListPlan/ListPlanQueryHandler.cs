@@ -42,6 +42,7 @@ public class ListPlanQueryHandler(IUnitOfWork unitOfWork)
             cNombre = p.Name!,
             cObservacion = p.Annotation!,
             cNombreEstado = statusPlan.FirstOrDefault(x => x.Id == p.PlanStatusId)!.Name!,
+            iMaeDispositivo = p.DocumentId,
             cNombreDispositivo = p.Document!.DocumentCode!,
             dFechaInicio = p.StartDate,
             dFechaFin = p.EndDate,
