@@ -6,12 +6,10 @@ public class PlanSpecification : BaseSpecification<Plan>
 {
     public PlanSpecification(SpecificationParams plansParams) : base(
         x =>
-            (!plansParams.Filters!.ContainsKey("documentTypeIds") || 
-             ParseIds(plansParams.Filters["documentTypeIds"]).Contains(x.DocumentTypeId)) &&
-            
-            (!plansParams.Filters!.ContainsKey("Name") ||
-             plansParams.Filters["Name"].Contains(x.Name!)) &&
-            
+            (!plansParams.Filters!.ContainsKey("iTipoDispositivo") ||
+             ParseIds(plansParams.Filters["iTipoDispositivo"]).Contains(x.DocumentTypeId)) &&
+            (!plansParams.Filters!.ContainsKey("cNombre") ||
+             x.Name!.Contains(plansParams.Filters["cNombre"])) &&
             x.Status.Equals('1')
     )
     {
@@ -36,11 +34,9 @@ public class PlanSpecification : BaseSpecification<Plan>
 }
 
 public class PlanForCountingSpecification(SpecificationParams plansParams) : BaseSpecification<Plan>(x =>
-    (!plansParams.Filters!.ContainsKey("iTipoDispositivo") || 
+    (!plansParams.Filters!.ContainsKey("iTipoDispositivo") ||
      ParseIds(plansParams.Filters["iTipoDispositivo"]).Contains(x.DocumentTypeId)) &&
-    
     (!plansParams.Filters!.ContainsKey("cNombre") ||
      x.Name!.Contains(plansParams.Filters["cNombre"])) &&
-            
     x.Status.Equals('1')
 );
