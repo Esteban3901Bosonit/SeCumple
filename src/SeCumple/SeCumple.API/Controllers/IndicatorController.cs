@@ -14,7 +14,7 @@ namespace SeCumple.API.Controllers;
 public class IndicatorController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    [Route("~/configuracion/listarTipoIndicador", Name = "SelectIndicatorTypes")]
+    [Route("~/api/configuracion/listarTipoIndicador", Name = "SelectIndicatorTypes")]
     public async Task<IActionResult> SelectIndicatorTypes()
     {
         var query = new SelectParameterDetailsQuery { ParentId = (int)ParameterEnum.IndicatorType };
@@ -22,7 +22,7 @@ public class IndicatorController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    [Route("~/configuracion/ListarTipoMedicion", Name = "SelectMeasurementTypes")]
+    [Route("~/api/configuracion/ListarTipoMedicion", Name = "SelectMeasurementTypes")]
     public async Task<IActionResult> SelectMeasurementTypes()
     {
         var query = new SelectParameterDetailsQuery { ParentId = (int)ParameterEnum.MeasurementType };
@@ -30,7 +30,7 @@ public class IndicatorController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    [Route("~/configuracion/ListarPeriodicidad", Name = "SelectPerioricity")]
+    [Route("~/api/configuracion/ListarPeriodicidad", Name = "SelectPerioricity")]
     public async Task<IActionResult> SelectPerioricity()
     {
         var query = new SelectParameterDetailsQuery { ParentId = (int)ParameterEnum.Periodicity };
