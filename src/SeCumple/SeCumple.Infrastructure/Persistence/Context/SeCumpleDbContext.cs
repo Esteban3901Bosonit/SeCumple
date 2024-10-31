@@ -73,9 +73,11 @@ public class SeCumpleDbContext : DbContext
                 .WithOne(a => a.Plan)
                 .HasForeignKey(a => a.PlanId)
                 .OnDelete(DeleteBehavior.NoAction);
+            
         });
 
         modelBuilder.Entity<Parameter>();
+        modelBuilder.Entity<SectorsPlan>();
         modelBuilder.Entity<PlanAnio>(e =>
         {
             e.HasOne(p => p.Plan).WithMany()
