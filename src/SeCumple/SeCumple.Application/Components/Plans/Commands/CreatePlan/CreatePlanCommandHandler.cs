@@ -33,7 +33,8 @@ public class CreatePlanCommandHandler(IUnitOfWork unitOfWork)
             var sectorPlan = new SectorsPlan
             {
                 PlanId = plan.Id,
-                SectorId = sectorId
+                SectorId = sectorId,
+                CreatedBy = request.iCodUsuarioRegistro
             };
 
             await unitOfWork.Repository<SectorsPlan>().AddAsync(sectorPlan);
