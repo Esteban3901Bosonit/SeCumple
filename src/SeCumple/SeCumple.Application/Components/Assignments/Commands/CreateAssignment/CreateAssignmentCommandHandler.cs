@@ -61,5 +61,5 @@ public class CreateAssignmentCommand : IRequest<ProcessResult<List<AssignmentRes
     public int iCodUsuario { get; set; }
     public int iRol { get; set; }
     public int iCodUsuarioRegistro { get; set; }
-    public string cUserName { get; set; }
+    public string? cUserName { get; set; }
 }
