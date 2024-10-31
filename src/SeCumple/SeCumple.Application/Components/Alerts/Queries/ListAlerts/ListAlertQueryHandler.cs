@@ -27,9 +27,9 @@ public class ListAlertQueryHandler(IUnitOfWork unitOfWork)
         var alerts = await unitOfWork.Repository<Alert>().GetAllWithSpec(alertSpec);
 
         var spectCount = new AlertForCountingSpecification(alertSpecParams);
-        var totalInterventions = await unitOfWork.Repository<Alert>().CountAsync(spectCount);
+        var totalAlerts = await unitOfWork.Repository<Alert>().CountAsync(spectCount);
 
-        var rounded = Math.Ceiling(Convert.ToDecimal(totalInterventions) / Convert.ToDecimal(request.PageSize));
+        var rounded = Math.Ceiling(Convert.ToDecimal(totalAlerts) / Convert.ToDecimal(request.PageSize));
         var totalPages = Convert.ToInt32(rounded);
 
         var alertResponse = alerts.Select(alert => new AlertResponse
@@ -54,7 +54,7 @@ public class ListAlertQueryHandler(IUnitOfWork unitOfWork)
         {
             Data = new PaginationResponse<AlertResponse>
             {
-                Count = totalInterventions,
+                Count = totalAlerts,
                 Data = alertResponse.ToList(),
                 PageCount = totalPages,
                 PageIndex = request.PageIndex,

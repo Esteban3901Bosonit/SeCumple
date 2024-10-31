@@ -108,6 +108,14 @@ public class SeCumpleDbContext : DbContext
         modelBuilder.Entity<GuideLine>();
         modelBuilder.Entity<Indicator>();
         modelBuilder.Entity<Alert>();
+        // modelBuilder.Entity<RecordDocumentParticipants>();
+        modelBuilder.Entity<Monitoring>(e =>
+        {
+            e.HasOne(m => m.RecordDocument)
+                .WithOne(r => r.Monitoring)
+                .HasForeignKey<RecordDocument>(r => r.MonitoringId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
         modelBuilder.Entity<Period>(e =>
         {
             e.HasMany(p => p.Goals).WithOne(g => g.Period)
@@ -115,6 +123,21 @@ public class SeCumpleDbContext : DbContext
                 .OnDelete(DeleteBehavior.NoAction);
         });
         modelBuilder.Entity<Goal>();
+        modelBuilder.Entity<Region>(e =>
+        {
+            e.HasMany(x=>x.Provinces)
+                .WithOne(x=>x.Region)
+                .HasForeignKey(x=>x.RegionId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
+        modelBuilder.Entity<Province>(e =>
+        {
+            e.HasMany(x=>x.Districts)
+                .WithOne(x=>x.Province)
+                .HasForeignKey(x=>x.ProvinceId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
+        modelBuilder.Entity<District>();
         modelBuilder.Entity<OrganicUnit>(e =>
         {
             e.HasOne(i => i.Sector).WithMany()
