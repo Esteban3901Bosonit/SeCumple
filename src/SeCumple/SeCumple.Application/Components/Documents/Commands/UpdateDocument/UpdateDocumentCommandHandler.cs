@@ -1,4 +1,5 @@
 using MediatR;
+using SeCumple.Application.Components.Documents.Commands.CreateDocument;
 using SeCumple.Application.Components.Documents.Dtos;
 using SeCumple.Application.Dtos.Response;
 using SeCumple.Domain.Entities;
@@ -10,14 +11,14 @@ public class UpdateDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
 {
     public async Task<ProcessResult<DocumentResponse>> Handle(UpdateDocumentCommand request, CancellationToken cancellationToken)
     {
-        var document = await unitOfWork.Repository<Document>().GetByIdAsync(request.Id);
-        document.DocumentCode = request.DocumentCode;
-        document.DocumentDate = request.DocumentDate;
-        document.DocumentTypeId = request.DocumentTypeId;
-        document.Url = request.Url;
-        document.Active = request.Active;
-        document.Active = request.Validated;
-        document.ModifiedBy = request.UserId;
+        var document = await unitOfWork.Repository<Document>().GetByIdAsync(request.iMaeDispositivo);
+        document.DocumentCode = request.cNumDispositivo;
+        document.DocumentDate = request.dFechaDispositivo;
+        document.DocumentTypeId = request.iTipoDispositivo;
+        document.Url = request.cLink;
+        document.Active = request.cEstVigencia;
+        document.Active = request.iValidado;
+        document.ModifiedBy = request.iCodUsuarioRegistro;
         
         await unitOfWork.Repository<Document>().UpdateAsync(document);
 
@@ -37,14 +38,7 @@ public class UpdateDocumentCommandHandler(IUnitOfWork unitOfWork): IRequestHandl
     }
 }
 
-public class UpdateDocumentCommand: IRequest<ProcessResult<DocumentResponse>>
+public class UpdateDocumentCommand: CreateDocumentCommand
 {
-    public int Id { get; set; }
-    public string? DocumentCode { get; set; }
-    public DateTime DocumentDate { get; set; }
-    public int DocumentTypeId { get; set; }
-    public string? Url { get; set; }
-    public char Active { get; set; }
-    public char Validated { get; set; }
-    public int UserId { get; set; }
+    public int iMaeDispositivo { get; set; }
 }
