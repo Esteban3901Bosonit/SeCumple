@@ -5,23 +5,19 @@ using SeCumple.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (!builder.Environment.IsDevelopment())
-{
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-    builder.WebHost.UseUrls($"http://*:{port}");
-}
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
-});
-
-
 // Add services to the container.
 builder.Services.Configure<SettingOptions>(builder.Configuration.GetSection("Settings"));
+
+// Configura CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.AllowAnyOrigin() // Temporalmente permite todos los orígenes para depurar
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 // Agrega servicios al contenedor
 builder.Services.AddHttpContextAccessor();
@@ -40,6 +36,8 @@ app.Use(async (context, next) =>
     await next.Invoke();
 });
 
+app.UseCors("AllowSpecificOrigins");
+
 app.Use(async (context, next) =>
 {
     if (context.Request.Method == HttpMethods.Options)
@@ -57,8 +55,6 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
 
 app.UseMiddleware<ExceptionMiddleware>();
 
