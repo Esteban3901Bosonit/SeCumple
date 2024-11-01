@@ -31,7 +31,6 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             OtherInterventionType = request.cOtroTipoIntervencion!,
             SubInterventionTypeId = request.iSubTipoIntervencion,
             PriorityId = request.iPrioridad,
-            UbigeoCode = request.cCodigoUbigeo,
             CUI = request.cCUI
         };
 

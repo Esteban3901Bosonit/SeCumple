@@ -35,7 +35,6 @@ public class UpdateInterventionCommandHandler(IUnitOfWork unitOfWork)
         intervention.PlanId = request.iDetPlanCumplimiento;
         intervention.SourceIds = string.Join(",", request.iFuente!);
         intervention.RegionType = request.cTipoRegion;
-        intervention.UbigeoCode = request.cCodigoUbigeo;
         intervention.PriorityId = request.iPrioridad;
         intervention.PCGCode = request.cCodigoPCG;
         intervention.CUI = request.cCUI;
