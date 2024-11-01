@@ -30,12 +30,6 @@ public class Intervention : Base
     public string? SourceIds { get; set; }
     [Column("cTipoRegion")]
     public string? RegionType { get; set; }
-    [Column("iMaeRegion")]
-    public string? RegionIds { get; set; }
-    [Column("iMaeProvincia")]
-    public string? ProvinceIds { get; set; }
-    [Column("iMaeDistrito")]
-    public string? DistrictIds { get; set; }
     [Column("iTipoIntervencion")]
     public int? InterventionTypeId { get; set; }
     [Column("cOtroTipoIntervencion")]
@@ -44,8 +38,6 @@ public class Intervention : Base
     public int? SubInterventionTypeId { get; set; }
     [Column("iPrioridad")]
     public int? PriorityId { get; set; }
-    [Column("cCodigoUbigeo")]
-    public string? UbigeoCode { get; set; }
     [Column("cCodigoPCG")]
     public string? PCGCode { get; set; }
     [Column("cCUI")]
