@@ -28,6 +28,7 @@ public class InterventionSpecification : BaseSpecification<Intervention>
         AddInclude(x => x.OrganicUnit!);
         AddInclude(x => x.OrganicUnit!.Sector!);
         AddInclude(x => x.GuideLine!.Axis!);
+        AddInclude(x => x.Regions!);
         ApplyPaging(interventionsParams.PageSize * (interventionsParams.PageIndex - 1), interventionsParams.PageSize);
 
         if (!string.IsNullOrEmpty(interventionsParams.Sort))

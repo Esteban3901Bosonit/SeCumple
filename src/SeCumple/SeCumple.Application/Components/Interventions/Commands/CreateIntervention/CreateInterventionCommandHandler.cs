@@ -25,29 +25,46 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             AssignmentStatusId =
                 (await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == "NO ASIGNADO")).Id,
             InterventionStatusId = interventionStatus.Id,
-            SectorIds = string.Join(",", request.iMaeSectores!),
             SourceIds = string.Join(",", request.iFuente!),
-            RegionTypeId = request.iTipoRegion,
-            RegionIds = string.Join(",", request.iMaeRegion!),
-            ProvinceIds = string.Join(",", request.iMaeProvincia!),
-            DistrictIds = string.Join(",", request.iMaeDistrito!),
+            RegionType = request.cTipoRegion,
             InterventionTypeId = request.iTipoIntervencion,
             OtherInterventionType = request.cOtroTipoIntervencion!,
             SubInterventionTypeId = request.iSubTipoIntervencion,
             PriorityId = request.iPrioridad,
             UbigeoCode = request.cCodigoUbigeo,
-            PCGCode = request.cCodigoPCG,
             CUI = request.cCUI
         };
 
         await unitOfWork.Repository<Intervention>().AddAsync(intervention);
+
+        var interventionLocations = new List<Ubigeo>();
+        foreach (var location in request.objLocalizacion!)
+        {
+            var region = await unitOfWork.Repository<Region>().GetEntityAsync(x => x.Id == location.iMaeRegion);
+            var province = await unitOfWork.Repository<Province>().GetEntityAsync(x => x.Id == location.iMaeProvincia);
+            var district = await unitOfWork.Repository<District>().GetEntityAsync(x => x.Id == location.iMaeDistrito);
+            var ubigeoCode= $"{region.Ubigeo}{province.Ubigeo??""}{district.Ubigeo??""}";
+            
+            interventionLocations.Add(new Ubigeo
+            {
+                InterventionId = intervention.Id,
+                RegionId = location.iMaeRegion,
+                ProvinceId = location.iMaeProvincia,
+                DistrictId = location.iMaeDistrito,
+                Code = ubigeoCode,
+                CreatedBy = request.iCodUsuarioRegistro,
+            });
+        }
+        
+        unitOfWork.Repository<Ubigeo>().AddRange(interventionLocations);
 
         var includes = new List<Expression<Func<Intervention, object>>>
         {
             x => x.GuideLine!,
             x => x.OrganicUnit!,
             x => x.OrganicUnit!.Sector!,
-            x => x.GuideLine!.Axis!
+            x => x.GuideLine!.Axis!,
+            x=>x.Regions!
         };
 
         intervention = await unitOfWork.Repository<Intervention>()
@@ -73,11 +90,17 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
                 cEstadoIntervencion = interventionStatus.Name!,
                 iTipoIntervencion = intervention.InterventionTypeId,
                 iSubTipoIntervencion = intervention.SubInterventionTypeId,
-                cCodigoUbigeo = intervention.UbigeoCode,
                 iFuente = intervention.SourceIds!.Split(',').Select(int.Parse).ToArray(),
                 iPrioridad = intervention.PriorityId,
                 cCodigoPCG = intervention.PCGCode,
-                cCUI = intervention.CUI
+                cCUI = intervention.CUI,
+                Ubigeos = intervention.Regions!.Select(x => new RegionInterventionResponse
+                {
+                    iMaeRegion = x.RegionId,
+                    iMaeProvincia = x.ProvinceId,
+                    iMaeDistrito = x.DistrictId,
+                    cCodigoUbigeo = x.Code!
+                }).ToArray()
             }
         };
     }
@@ -90,12 +113,9 @@ public class CreateInterventionCommand : IRequest<ProcessResult<InterventionResp
     public int iDetPlanCumplimiento { get; set; }
     public int iMaeLineamiento { get; set; }
     public int iMaeUnidadOrganica { get; set; }
-    public int[]? iMaeSectores { get; set; }
     public int[]? iFuente { get; set; }
-    public int? iTipoRegion { get; set; }
-    public int[]? iMaeRegion { get; set; }
-    public int[]? iMaeProvincia { get; set; }
-    public int[]? iMaeDistrito { get; set; }
+    public string? cTipoRegion { get; set; }
+    public RegionRequest[]? objLocalizacion { get; set; }
     public int? iTipoIntervencion { get; set; }
     public string? cOtroTipoIntervencion { get; set; }
     public int? iSubTipoIntervencion { get; set; }
@@ -103,4 +123,12 @@ public class CreateInterventionCommand : IRequest<ProcessResult<InterventionResp
     public string? cCodigoUbigeo { get; set; }
     public string? cCodigoPCG { get; set; }
     public string? cCUI { get; set; }
+}
+
+public class RegionRequest
+{
+    public int? iDetUbigeo { get; set; }
+    public int iMaeRegion { get; set; }
+    public int? iMaeProvincia { get; set; }
+    public int? iMaeDistrito { get; set; }
 }

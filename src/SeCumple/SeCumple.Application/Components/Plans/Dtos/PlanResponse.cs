@@ -12,4 +12,7 @@ public class PlanResponse
     public DateTime dFechaInicio { get; set; }
     public DateTime dFechaFin { get; set; }
     public int[]? Sectors { get; set; }
+    public string cTituloEstadoActual { get; set; }
+    public string cTituloDescripAcciones { get; set; }
+    public string cTituloDescripAlertas { get; set; }
 }

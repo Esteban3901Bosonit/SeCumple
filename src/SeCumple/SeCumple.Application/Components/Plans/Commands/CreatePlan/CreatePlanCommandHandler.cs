@@ -52,7 +52,10 @@ public class CreatePlanCommandHandler(IUnitOfWork unitOfWork)
                 dFechaInicio = plan.StartDate,
                 dFechaFin = plan.EndDate,
                 cNombreEstado = plan.PlanStatusId.ToString(),
-                cNombreDispositivo = document.DocumentCode!
+                cNombreDispositivo = document.DocumentCode!,
+                cTituloEstadoActual = plan.CurrentTitle!,
+                cTituloDescripAcciones = plan.ActionsDescription!,
+                cTituloDescripAlertas = plan.AlertsDescription!
             }
         };
     }

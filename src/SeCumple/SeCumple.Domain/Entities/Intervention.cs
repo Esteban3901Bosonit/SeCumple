@@ -28,8 +28,8 @@ public class Intervention : Base
     public string? SectorIds { get; set; }
     [Column("iFuente")]
     public string? SourceIds { get; set; }
-    [Column("iTipoRegion")]
-    public int? RegionTypeId { get; set; }
+    [Column("cTipoRegion")]
+    public string? RegionType { get; set; }
     [Column("iMaeRegion")]
     public string? RegionIds { get; set; }
     [Column("iMaeProvincia")]
@@ -51,4 +51,5 @@ public class Intervention : Base
     [Column("cCUI")]
     public string? CUI { get; set; }
     public virtual ICollection<InterventionAssignment>? AssignedUsers { get; set; }
+    public virtual ICollection<Ubigeo>? Regions { get; set; }
 }

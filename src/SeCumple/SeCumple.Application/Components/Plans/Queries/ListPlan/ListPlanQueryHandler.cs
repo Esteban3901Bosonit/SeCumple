@@ -47,7 +47,10 @@ public class ListPlanQueryHandler(IUnitOfWork unitOfWork)
             dFechaInicio = p.StartDate,
             dFechaFin = p.EndDate,
             cEstado = p.Status.ToString(),
-            Sectors = p.Sectors!.Select(x => x.SectorId).ToArray()
+            Sectors = p.Sectors!.Select(x => x.SectorId).ToArray(),
+            cTituloEstadoActual = p.CurrentTitle!,
+            cTituloDescripAcciones = p.ActionsDescription!,
+            cTituloDescripAlertas = p.AlertsDescription!
         });
 
         return new ProcessResult<PaginationResponse<PlanResponse>>

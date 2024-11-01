@@ -22,7 +22,7 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
         var plan = await unitOfWork.Repository<Plan>()
             .GetEntityAsync(x => x.Id == request.iDetPlanCumplimiento, includes);
 
-         plan.Name = request.cNombre;
+        plan.Name = request.cNombre;
         plan.DocumentId = request.iMaeDispositivo;
         plan.DocumentTypeId = request.iTipoDispositivo;
         plan.Annotation = request.cObservacion;
@@ -31,10 +31,14 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
         plan.EndDate = request.dFechaFin;
         plan.CurrentTitle = request.cTituloEstadoActual;
         plan.ActionsDescription = request.cTituloDescripAcciones;
+        plan.PlanStatusId = request.iEstadoPlan ?? plan.PlanStatusId;
         plan.AlertsDescription = request.cTituloDescripAlertas;
+        
+        await unitOfWork.Repository<Plan>().UpdateAsync(plan);
 
         var sectorToRemove = plan.Sectors!.Where(x => !request.iMaeSector.Contains(x.SectorId)).ToList();
-        var newSectors = request.iMaeSector.Except(plan.Sectors!.Select(x => x.SectorId)).ToList();
+        var newSectors = request.iMaeSector
+            .Except(plan.Sectors!.Where(y => y.Status == '1').Select(x => x.SectorId)).ToList();
 
         foreach (var sector in sectorToRemove)
         {
@@ -42,20 +46,15 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
             sector.ModifiedBy = request.iCodUsuarioRegistro;
             await unitOfWork.Repository<SectorsPlan>().UpdateAsync(sector);
         }
-
-        foreach (var sector in newSectors)
+        
+        var insertSectors = newSectors.Select(x => new SectorsPlan
         {
-            var sectorPlan = new SectorsPlan
-            {
-                PlanId = plan.Id,
-                SectorId = sector,
-                CreatedBy = request.iCodUsuarioRegistro
-            };
+            PlanId = plan.Id,
+            SectorId = x,
+            CreatedBy = request.iCodUsuarioRegistro
+        }).ToList();
 
-            await unitOfWork.Repository<SectorsPlan>().AddAsync(sectorPlan);
-        }
-
-        await unitOfWork.Repository<Plan>().UpdateAsync(plan);
+       unitOfWork.Repository<SectorsPlan>().AddRange(insertSectors);
 
         return new ProcessResult<PlanResponse>
         {
@@ -74,4 +73,5 @@ public class UpdatePlanCommand : CreatePlanCommand
     public string cTituloEstadoActual { get; set; }
     public string cTituloDescripAcciones { get; set; }
     public string cTituloDescripAlertas { get; set; }
+    public int? iEstadoPlan { get; set; }
 }
