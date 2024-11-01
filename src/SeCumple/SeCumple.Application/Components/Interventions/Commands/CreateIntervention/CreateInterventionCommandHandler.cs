@@ -25,7 +25,7 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             AssignmentStatusId =
                 (await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == "NO ASIGNADO")).Id,
             InterventionStatusId = interventionStatus.Id,
-            SourceIds = string.Join(",", request.iFuente!),
+            SourceIds = request.iFuente != null ? string.Join(",", request.iFuente!) : null,
             RegionType = request.cTipoRegion,
             InterventionTypeId = request.iTipoIntervencion,
             OtherInterventionType = request.cOtroTipoIntervencion!,
@@ -42,8 +42,8 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             var region = await unitOfWork.Repository<Region>().GetEntityAsync(x => x.Id == location.iMaeRegion);
             var province = await unitOfWork.Repository<Province>().GetEntityAsync(x => x.Id == location.iMaeProvincia);
             var district = await unitOfWork.Repository<District>().GetEntityAsync(x => x.Id == location.iMaeDistrito);
-            var ubigeoCode= $"{region.Ubigeo}{province.Ubigeo??""}{district.Ubigeo??""}";
-            
+            var ubigeoCode = $"{region.Ubigeo}{province.Ubigeo ?? ""}{district.Ubigeo ?? ""}";
+
             interventionLocations.Add(new Ubigeo
             {
                 InterventionId = intervention.Id,
@@ -54,7 +54,7 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
                 CreatedBy = request.iCodUsuarioRegistro,
             });
         }
-        
+
         unitOfWork.Repository<Ubigeo>().AddRange(interventionLocations);
 
         var includes = new List<Expression<Func<Intervention, object>>>
@@ -63,7 +63,7 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             x => x.OrganicUnit!,
             x => x.OrganicUnit!.Sector!,
             x => x.GuideLine!.Axis!,
-            x=>x.Regions!
+            x => x.Regions!
         };
 
         intervention = await unitOfWork.Repository<Intervention>()
