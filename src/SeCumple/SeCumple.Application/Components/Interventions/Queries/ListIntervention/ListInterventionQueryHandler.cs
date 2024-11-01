@@ -49,11 +49,17 @@ public class ListInterventionQueryHandler(IUnitOfWork unitOfWork)
             cEstado = i.Status.ToString(),
             iTipoIntervencion = i.InterventionTypeId,
             iSubTipoIntervencion = i.SubInterventionTypeId,
-            cCodigoUbigeo = i.UbigeoCode,
             iFuente = i.SourceIds != null ? i.SourceIds!.Split(',').Select(int.Parse).ToArray() : null,
             iPrioridad = i.PriorityId,
             cCodigoPCG = i.PCGCode,
-            cCUI = i.CUI
+            cCUI = i.CUI,
+            Ubigeos = i.Regions!.Select(x => new RegionInterventionResponse
+            {
+                iMaeRegion = x.RegionId,
+                iMaeProvincia = x.ProvinceId,
+                iMaeDistrito = x.DistrictId,
+                cCodigoUbigeo = x.Code!
+            }).ToArray()
         });
 
         return new ProcessResult<PaginationResponse<InterventionResponse>>

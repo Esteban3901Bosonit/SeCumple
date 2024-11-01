@@ -20,8 +20,7 @@ public class InterventionResponse
     public string? cCodigoPCG { get; set; }
     public int? iTipoIntervencion { get; set; }
     public int? iSubTipoIntervencion { get; set; }
-    public string? cCodigoUbigeo { get; set; }
     public int[]? iFuente { get; set; }
     public int? iPrioridad { get; set; }
-
+    public RegionInterventionResponse[]? Ubigeos { get; set; }
 }

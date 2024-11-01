@@ -14,7 +14,6 @@ public class UpdateInterventionCommandHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<InterventionResponse>> Handle(UpdateInterventionCommand request,
         CancellationToken cancellationToken)
     {
-        
         var includes = new List<Expression<Func<Intervention, object>>>
         {
             x => x.GuideLine!,
@@ -29,17 +28,13 @@ public class UpdateInterventionCommandHandler(IUnitOfWork unitOfWork)
         var interventionStatus =
             await unitOfWork.Repository<ParameterDetail>().GetByIdAsync(intervention.InterventionStatusId);
 
-        intervention.ModifiedBy=request.iCodUsuarioRegistro;
+        intervention.ModifiedBy = request.iCodUsuarioRegistro;
         intervention.Name = request.cNombre;
         intervention.GuidelineId = request.iMaeLineamiento;
         intervention.OrganicUnitId = request.iMaeUnidadOrganica;
         intervention.PlanId = request.iDetPlanCumplimiento;
-        intervention.SectorIds = string.Join(",", request.iMaeSectores!);
         intervention.SourceIds = string.Join(",", request.iFuente!);
-        intervention.RegionTypeId = request.iTipoRegion;
-        intervention.RegionIds = string.Join(",", request.iMaeRegion!);
-        intervention.ProvinceIds = string.Join(",", request.iMaeProvincia!);
-        intervention.DistrictIds = string.Join(",", request.iMaeDistrito!);
+        intervention.RegionType = request.cTipoRegion;
         intervention.UbigeoCode = request.cCodigoUbigeo;
         intervention.PriorityId = request.iPrioridad;
         intervention.PCGCode = request.cCodigoPCG;
@@ -48,9 +43,61 @@ public class UpdateInterventionCommandHandler(IUnitOfWork unitOfWork)
         intervention.SubInterventionTypeId = request.iSubTipoIntervencion;
         intervention.OtherInterventionType = request.cOtroTipoIntervencion!;
         intervention.ModifiedBy = request.iCodUsuarioRegistro;
-        
+
         await unitOfWork.Repository<Intervention>().UpdateAsync(intervention);
-        
+
+        var locationToRemove = intervention.Regions
+            ?.Where(x => !request.objLocalizacion!.Select(x => x.iDetUbigeo).Contains(x.Id)).ToList();
+
+        foreach (var location in locationToRemove)
+        {
+            location.Status = '0';
+            location.ModifiedBy = request.iCodUsuarioRegistro;
+            await unitOfWork.Repository<Ubigeo>().UpdateAsync(location);
+        }
+
+        foreach (var item in request.objLocalizacion!.Where(x => x.iDetUbigeo > 0))
+        {
+            var location = await unitOfWork.Repository<Ubigeo>()
+                .GetEntityAsync(x => x.Id == item.iDetUbigeo && (x.RegionId != item.iMaeRegion
+                                                                 || x.ProvinceId != item.iMaeProvincia
+                                                                 || x.DistrictId != item.iMaeDistrito));
+            if (location != null)
+            {
+                var region = await unitOfWork.Repository<Region>().GetEntityAsync(x => x.Id == item.iMaeRegion);
+                var province = await unitOfWork.Repository<Province>().GetEntityAsync(x => x.Id == item.iMaeProvincia);
+                var district = await unitOfWork.Repository<District>().GetEntityAsync(x => x.Id == item.iMaeDistrito);
+                var ubigeoCode = $"{region.Ubigeo}{province.Ubigeo ?? ""}{district.Ubigeo ?? ""}";
+                location.RegionId = item.iMaeRegion;
+                location.ProvinceId = item.iMaeProvincia;
+                location.DistrictId = item.iMaeDistrito;
+                location.Code = ubigeoCode;
+                location.ModifiedBy = request.iCodUsuarioRegistro;
+                await unitOfWork.Repository<Ubigeo>().UpdateAsync(location);
+            }
+        }
+
+        var newLocations = new List<Ubigeo>();
+        foreach (var item in request.objLocalizacion!.Where(x => x is { iMaeRegion: > 0, iDetUbigeo: null }))
+        {
+            var region = await unitOfWork.Repository<Region>().GetEntityAsync(x => x.Id == item.iMaeRegion);
+            var province = await unitOfWork.Repository<Province>().GetEntityAsync(x => x.Id == item.iMaeProvincia);
+            var district = await unitOfWork.Repository<District>().GetEntityAsync(x => x.Id == item.iMaeDistrito);
+            var ubigeoCode = $"{region.Ubigeo}{province.Ubigeo ?? ""}{district.Ubigeo ?? ""}";
+
+            newLocations.Add(new Ubigeo
+            {
+                InterventionId = intervention.Id,
+                RegionId = item.iMaeRegion,
+                ProvinceId = item.iMaeProvincia,
+                DistrictId = item.iMaeDistrito,
+                Code = ubigeoCode,
+                CreatedBy = request.iCodUsuarioRegistro
+            });
+        }
+
+        unitOfWork.Repository<Ubigeo>().AddRange(newLocations);
+
         return new ProcessResult<InterventionResponse>
         {
             Data = new InterventionResponse
@@ -71,11 +118,17 @@ public class UpdateInterventionCommandHandler(IUnitOfWork unitOfWork)
                 cEstadoIntervencion = interventionStatus.Name!,
                 iTipoIntervencion = intervention.InterventionTypeId,
                 iSubTipoIntervencion = intervention.SubInterventionTypeId,
-                cCodigoUbigeo = intervention.UbigeoCode,
                 iFuente = intervention.SourceIds!.Split(',').Select(int.Parse).ToArray(),
                 iPrioridad = intervention.PriorityId,
                 cCodigoPCG = intervention.PCGCode,
-                cCUI = intervention.CUI
+                cCUI = intervention.CUI,
+                Ubigeos = intervention.Regions!.Select(x => new RegionInterventionResponse
+                {
+                    iMaeRegion = x.RegionId,
+                    iMaeProvincia = x.ProvinceId,
+                    iMaeDistrito = x.DistrictId,
+                    cCodigoUbigeo = x.Code!
+                }).ToArray()
             }
         };
     }
