@@ -22,6 +22,7 @@ public class CreatePlanCommandHandler(IUnitOfWork unitOfWork)
             CreatedBy = request.iCodUsuarioRegistro,
             DocumentId = request.iMaeDispositivo,
             DocumentTypeId = request.iTipoDispositivo,
+            Version = 1,
             PlanStatusId = (await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x =>
                 x.ParentId == (int?)ParameterEnum.PlanStatus && x.Name!.ToUpper().Equals("PENDIENTE"))).Id
         };
@@ -70,5 +71,5 @@ public class CreatePlanCommand : IRequest<ProcessResult<PlanResponse>>
     public int iTipoDispositivo { get; set; }
     public DateTime dFechaInicio { get; set; }
     public DateTime dFechaFin { get; set; }
-    public int[] iMaeSector { get; set; }
+    public int[]? iMaeSector { get; set; }
 }

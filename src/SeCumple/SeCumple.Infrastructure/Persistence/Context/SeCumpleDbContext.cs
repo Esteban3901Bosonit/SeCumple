@@ -76,7 +76,9 @@ public class SeCumpleDbContext : DbContext
                 .WithOne(a => a.Plan)
                 .HasForeignKey(a => a.PlanId)
                 .OnDelete(DeleteBehavior.NoAction);
-            
+            e.HasOne(a => a.ApprovalFile)
+                .WithMany().HasForeignKey(p => p.ApprovalFileId)
+                .OnDelete(DeleteBehavior.NoAction);
         });
 
         modelBuilder.Entity<Parameter>();
@@ -123,18 +125,19 @@ public class SeCumpleDbContext : DbContext
                 .OnDelete(DeleteBehavior.NoAction);
         });
         modelBuilder.Entity<Goal>();
+        modelBuilder.Entity<FileUploaded>();
         modelBuilder.Entity<Region>(e =>
         {
-            e.HasMany(x=>x.Provinces)
-                .WithOne(x=>x.Region)
-                .HasForeignKey(x=>x.RegionId)
+            e.HasMany(x => x.Provinces)
+                .WithOne(x => x.Region)
+                .HasForeignKey(x => x.RegionId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
         modelBuilder.Entity<Province>(e =>
         {
-            e.HasMany(x=>x.Districts)
-                .WithOne(x=>x.Province)
-                .HasForeignKey(x=>x.ProvinceId)
+            e.HasMany(x => x.Districts)
+                .WithOne(x => x.Province)
+                .HasForeignKey(x => x.ProvinceId)
                 .OnDelete(DeleteBehavior.NoAction);
         });
         modelBuilder.Entity<District>();

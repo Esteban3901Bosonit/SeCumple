@@ -19,7 +19,6 @@
       <Folder Include="Components\Questions\Commands\CreateQuestion\" />
       <Folder Include="Components\Questions\Commands\UpdateQuestion\" />
       <Folder Include="Components\Questions\Queries\" />
-      <Folder Include="Interfaces\" />
     </ItemGroup>
 
     <ItemGroup>

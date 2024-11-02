@@ -26,14 +26,20 @@ public class Plan : Base
     public string? Name { get; set; }
     [Column("cTituloEstadoActual")]
     public string? CurrentTitle { get; set; } = PlanMessages.CurrentStatusTitle;
-
     [Column("cTituloDescripAcciones")]
     public string? ActionsDescription { get; set; } = PlanMessages.ActionsDescriptionTitle;
-
     [Column("cTituloDescripAlertas")]
     public string? AlertsDescription { get; set; } = PlanMessages.AlertsDescripcionTitle;
-    
+    [Column("iVersion")]
+    public int? Version { get; set; }
+    [Column("iDetPlanPadre")]
+    public int? ParentPlanId { get; set; }
+    [Column("cCodDocumentoAprobacion")]
+    public string? ApprovalDocumentCode { get; set; }
+    [Column("iMaeArchivoAprobacion")]
+    public int? ApprovalFileId { get; set; }
     public virtual Document? Document { get; set; }
+    public virtual FileUploaded? ApprovalFile { get; set; }
     public virtual ICollection<Assignment>? Assigments { get; set; }
     public virtual ICollection<PlanAnio>? PlanAnios { get; set; }
     public virtual ICollection<SectorsPlan>? Sectors { get; set; }

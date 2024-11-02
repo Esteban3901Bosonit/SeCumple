@@ -16,4 +16,8 @@
       <ProjectReference Include="..\SeCumple.Application\SeCumple.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Documentos\" />
+    </ItemGroup>
+
 </Project>
