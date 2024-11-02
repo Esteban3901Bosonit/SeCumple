@@ -4,6 +4,8 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SeCumple.Application.Behaviors;
 using SeCumple.Application.Components.Documents.Commands.CreateDocument;
+using SeCumple.Application.Interfaces;
+using SeCumple.Application.Services;
 
 namespace SeCumple.Application;
 
@@ -14,6 +16,7 @@ public static class ExtensionServices
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddScoped<IFileManagement, FileManagement>();
     
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

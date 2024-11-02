@@ -119,7 +119,6 @@ public class CreateInterventionCommand : IRequest<ProcessResult<InterventionResp
     public string? cOtroTipoIntervencion { get; set; }
     public int? iSubTipoIntervencion { get; set; }
     public int? iPrioridad { get; set; }
-    public string? cCodigoUbigeo { get; set; }
     public string? cCodigoPCG { get; set; }
     public string? cCUI { get; set; }
 }

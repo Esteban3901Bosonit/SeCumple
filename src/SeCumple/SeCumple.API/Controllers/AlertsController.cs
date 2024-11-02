@@ -4,7 +4,6 @@ using SeCumple.Application.Components.Alerts.Commands.CreateAlert;
 using SeCumple.Application.Components.Alerts.Commands.DeleteAlert;
 using SeCumple.Application.Components.Alerts.Commands.UpdateAlert;
 using SeCumple.Application.Components.Alerts.Queries.ListAlerts;
-using SeCumple.Application.Components.Assignments.Queries.ListAssignment;
 
 namespace SeCumple.API.Controllers;
 

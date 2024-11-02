@@ -1,10 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SeCumple.Application.Components.ParameterDetails.Queries.SelectParameters;
+using SeCumple.Application.Components.Plans.Commands.ApprovePlan;
 using SeCumple.Application.Components.Plans.Commands.CreatePlan;
 using SeCumple.Application.Components.Plans.Commands.CreatePlanAnio;
 using SeCumple.Application.Components.Plans.Commands.DeletePlan;
 using SeCumple.Application.Components.Plans.Commands.DeletePlanAnio;
+using SeCumple.Application.Components.Plans.Commands.Duplicate;
 using SeCumple.Application.Components.Plans.Commands.UpdatePlan;
 using SeCumple.Application.Components.Plans.Queries.GetPlanAnioByPlanId;
 using SeCumple.Application.Components.Plans.Queries.ListPlan;
@@ -69,6 +70,20 @@ public class PlanController(IMediator mediator) : ControllerBase
     [HttpPost]
     [Route("~/api/gestion/EliminarPlanCumplimientoAnio", Name = "DeletePlanAnio")]
     public async Task<IActionResult> DeletePlanAnio(DeletePlanAnioCommand request)
+    {
+        return Ok(await mediator.Send(request));
+    }  
+    
+    [HttpPost]
+    [Route("~/api/gestion/EditarEstadoPlanCumplimiento", Name = "UpdataPlanStatus")]
+    public async Task<IActionResult> UpdataPlanStatus([FromForm]UpdatePlanStatusCommand request)
+    {
+        return Ok(await mediator.Send(request));
+    }
+    
+    [HttpPost]
+    [Route("~/api/gestion/DuplicarPlanCumplimiento", Name = "DuplicatePlan")]
+    public async Task<IActionResult> DuplicatePlan(DuplicatePlanCommand request)
     {
         return Ok(await mediator.Send(request));
     }

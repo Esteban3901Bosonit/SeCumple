@@ -31,7 +31,6 @@ public class UpdatePlanCommandHandler(IUnitOfWork unitOfWork)
         plan.EndDate = request.dFechaFin;
         plan.CurrentTitle = request.cTituloEstadoActual;
         plan.ActionsDescription = request.cTituloDescripAcciones;
-        plan.PlanStatusId = request.iEstadoPlan ?? plan.PlanStatusId;
         plan.AlertsDescription = request.cTituloDescripAlertas;
         
         await unitOfWork.Repository<Plan>().UpdateAsync(plan);
@@ -73,5 +72,5 @@ public class UpdatePlanCommand : CreatePlanCommand
     public string cTituloEstadoActual { get; set; }
     public string cTituloDescripAcciones { get; set; }
     public string cTituloDescripAlertas { get; set; }
-    public int? iEstadoPlan { get; set; }
+    // public string? cNombreEstadoPlan { get; set; }
 }
