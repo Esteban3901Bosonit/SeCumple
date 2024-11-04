@@ -21,7 +21,7 @@ public class FileController(IMediator mediator) : ControllerBase
     
     [HttpPost]
     [Route("uploadFile", Name = "UploadFile")]
-    public async Task<IActionResult> UploadFile(UploadFileCommand file)
+    public async Task<IActionResult> UploadFile([FromForm] UploadFileCommand file)
     {
         var result = await mediator.Send(file);
         return Ok(result);
