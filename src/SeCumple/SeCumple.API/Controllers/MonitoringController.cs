@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SeCumple.Application.Components.Monitorings.Commads.AddPersonsToMonitoring;
 using SeCumple.Application.Components.Monitorings.Commads.CreateMonitoring;
 using SeCumple.Application.Components.Monitorings.Commads.DeleteMonitoring;
 using SeCumple.Application.Components.Monitorings.Commads.UpdateMonitoring;
@@ -42,5 +43,11 @@ public class MonitoringController(IMediator mediator) : ControllerBase
     {
         var query = new GetPersonByMonitoringIdQuery { MonitoringId = id };
         return Ok(await mediator.Send(query));
+    }
+
+    [HttpPost("~/api/seguimiento/AgregarParticipantesMonitoreo", Name = "AddPersonMonitoring")]
+    public async Task<IActionResult> AddPersonMonitoring([FromBody] AddPersonsToMonitoringCommand request)
+    {
+        return Ok(await mediator.Send(request));
     }
 }

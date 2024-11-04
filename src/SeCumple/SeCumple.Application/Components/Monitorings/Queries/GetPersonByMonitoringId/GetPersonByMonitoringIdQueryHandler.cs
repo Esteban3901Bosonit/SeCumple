@@ -1,5 +1,4 @@
 using MediatR;
-using SeCumple.Application.Components.Alerts.Dtos;
 using SeCumple.Application.Components.Monitorings.Dtos;
 using SeCumple.Application.Dtos.Response;
 using SeCumple.Domain.Entities;
@@ -16,7 +15,7 @@ public class GetPersonByMonitoringIdQueryHandler(IUnitOfWork unitOfWork)
         var recordDocument = await unitOfWork.Repository<RecordDocument>()
             .GetEntityAsync(x => x.MonitoringId == request.MonitoringId);
         var recordDocumentPerson = await unitOfWork.Repository<RecordDocumentParticipants>()
-            .GetAsync(x => x.RecordDocumentId == recordDocument.Id);
+            .GetAsync(x => x.RecordDocumentId == recordDocument.Id && x.Status == '1');
 
         var persons = await unitOfWork.Repository<Person>()
             .GetAsync(x => recordDocumentPerson.Select(r => r.ParticipantId).ToList().Contains(x.Id));
@@ -25,6 +24,7 @@ public class GetPersonByMonitoringIdQueryHandler(IUnitOfWork unitOfWork)
         {
             Data = persons.Select(p => new PersonResponse
             {
+                // iDetParticipanteActa= recordDocumentPerson.FirstOrDefault(x=>x.ParticipantId == p.Id).Id,
                 iMaePersona = p.Id,
                 cNombre = p.Name,
                 cEmail = p.Email,
