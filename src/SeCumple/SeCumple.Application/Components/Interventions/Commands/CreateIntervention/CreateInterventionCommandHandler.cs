@@ -22,9 +22,8 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             PlanId = request.iDetPlanCumplimiento,
             GuidelineId = request.iMaeLineamiento,
             OrganicUnitId = request.iMaeUnidadOrganica,
-            AssignmentStatusId =
-                (await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == "NO ASIGNADO")).Id,
-            InterventionStatusId = interventionStatus.Id,
+            AssignmentStatusId = (await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == "NO ASIGNADO")).Id,
+            InterventionStatusId = interventionStatus?.Id ?? 0,
             SourceIds = request.iFuente != null ? string.Join(",", request.iFuente!) : null,
             RegionType = request.cTipoRegion,
             InterventionTypeId = request.iTipoIntervencion,
@@ -36,23 +35,37 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
 
         await unitOfWork.Repository<Intervention>().AddAsync(intervention);
 
+        // Verificación de nulidad para objLocalizacion
         var interventionLocations = new List<Ubigeo>();
-        foreach (var location in request.objLocalizacion!)
+        if (request.objLocalizacion != null)
         {
-            var region = await unitOfWork.Repository<Region>().GetEntityAsync(x => x.Id == location.iMaeRegion);
-            var province = await unitOfWork.Repository<Province>().GetEntityAsync(x => x.Id == location.iMaeProvincia);
-            var district = await unitOfWork.Repository<District>().GetEntityAsync(x => x.Id == location.iMaeDistrito);
-            var ubigeoCode = $"{region.Ubigeo}{province.Ubigeo ?? ""}{district.Ubigeo ?? ""}";
-
-            interventionLocations.Add(new Ubigeo
+            foreach (var location in request.objLocalizacion)
             {
-                InterventionId = intervention.Id,
-                RegionId = location.iMaeRegion,
-                ProvinceId = location.iMaeProvincia,
-                DistrictId = location.iMaeDistrito,
-                Code = ubigeoCode,
-                CreatedBy = request.iCodUsuarioRegistro,
-            });
+                if (location.iMaeRegion == null && location.iMaeProvincia == null && location.iMaeDistrito == null)
+                {
+                    continue; // Ignorar localizaciones nulas
+                }
+
+                var region = await unitOfWork.Repository<Region>().GetEntityAsync(x => x.Id == location.iMaeRegion);
+                var province = location.iMaeProvincia != null
+                    ? await unitOfWork.Repository<Province>().GetEntityAsync(x => x.Id == location.iMaeProvincia)
+                    : null;
+                var district = location.iMaeDistrito != null
+                    ? await unitOfWork.Repository<District>().GetEntityAsync(x => x.Id == location.iMaeDistrito)
+                    : null;
+
+                var ubigeoCode = $"{region?.Ubigeo ?? ""}{province?.Ubigeo ?? ""}{district?.Ubigeo ?? ""}";
+
+                interventionLocations.Add(new Ubigeo
+                {
+                    InterventionId = intervention.Id,
+                    RegionId = location.iMaeRegion,
+                    ProvinceId = location.iMaeProvincia,
+                    DistrictId = location.iMaeDistrito,
+                    Code = ubigeoCode,
+                    CreatedBy = request.iCodUsuarioRegistro,
+                });
+            }
         }
 
         unitOfWork.Repository<Ubigeo>().AddRange(interventionLocations);
@@ -75,31 +88,31 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
             {
                 iMovIntervencion = intervention.Id,
                 cNombre = intervention.Name!,
-                iMaeEje = intervention.GuideLine!.Axis!.Id!,
-                cNombreEje = intervention.GuideLine!.Axis!.Title!,
-                cNum = intervention.GuideLine!.Axis!.Numeral!,
+                iMaeEje = intervention.GuideLine?.Axis?.Id ?? 0,
+                cNombreEje = intervention.GuideLine?.Axis?.Title ?? string.Empty,
+                cNum = intervention.GuideLine?.Axis?.Numeral ?? string.Empty,
                 iMaeLineamiento = intervention.GuidelineId,
-                cNombreLineamiento = intervention.GuideLine!.Description!,
-                cNumLineamiento = intervention.GuideLine!.Numeral!,
+                cNombreLineamiento = intervention.GuideLine?.Description ?? string.Empty,
+                cNumLineamiento = intervention.GuideLine?.Numeral ?? string.Empty,
                 iMaeUnidadOrganica = intervention.OrganicUnitId,
-                cNombreUnidadOrganica = intervention.OrganicUnit!.Name!,
-                iMaeSector = intervention.OrganicUnit!.SectorId!,
-                cNombreSector = intervention.OrganicUnit!.Sector!.Name!,
+                cNombreUnidadOrganica = intervention.OrganicUnit?.Name ?? string.Empty,
+                iMaeSector = intervention.OrganicUnit?.SectorId ?? 0,
+                cNombreSector = intervention.OrganicUnit?.Sector?.Name ?? string.Empty,
                 cEstado = intervention.Status.ToString(),
-                cEstadoIntervencion = interventionStatus.Name!,
+                cEstadoIntervencion = interventionStatus?.Name ?? string.Empty,
                 iTipoIntervencion = intervention.InterventionTypeId,
                 iSubTipoIntervencion = intervention.SubInterventionTypeId,
-                iFuente = intervention.SourceIds!.Split(',').Select(int.Parse).ToArray(),
+                iFuente = intervention.SourceIds?.Split(',').Select(int.Parse).ToArray(),
                 iPrioridad = intervention.PriorityId,
                 cCodigoPCG = intervention.PCGCode,
                 cCUI = intervention.CUI,
-                Ubigeos = intervention.Regions!.Select(x => new RegionInterventionResponse
+                Ubigeos = intervention.Regions?.Select(x => new RegionInterventionResponse
                 {
                     iMaeRegion = x.RegionId,
                     iMaeProvincia = x.ProvinceId,
                     iMaeDistrito = x.DistrictId,
                     cCodigoUbigeo = x.Code!
-                }).ToArray()
+                }).ToArray() ?? Array.Empty<RegionInterventionResponse>()
             }
         };
     }
@@ -129,4 +142,5 @@ public class RegionRequest
     public int iMaeRegion { get; set; }
     public int? iMaeProvincia { get; set; }
     public int? iMaeDistrito { get; set; }
+    public int? cCodUbigeo { get; set; }
 }
