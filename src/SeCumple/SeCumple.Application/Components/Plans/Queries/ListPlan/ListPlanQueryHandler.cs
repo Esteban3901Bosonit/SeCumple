@@ -35,13 +35,13 @@ public class ListPlanQueryHandler(IUnitOfWork unitOfWork)
 
         var statusPlan = await unitOfWork.Repository<ParameterDetail>()
             .GetAsync(x => x.ParentId == (int)ParameterEnum.PlanStatus);
-
+        
         var planResponse = plans.Select(p => new PlanResponse
         {
             iDetPlanCumplimiento = p.Id,
             cNombre = p.Name!,
             cObservacion = p.Annotation!,
-            cNombreEstado = statusPlan.FirstOrDefault(x => x.Id == p.PlanStatusId)!.Name!,
+            cNombreEstado = (Enum.Parse<StatusPlanEnum>(p.PlanStatusId.ToString())).GetEnumMemberValue(),
             iMaeDispositivo = p.DocumentId,
             cNombreDispositivo = p.Document!.DocumentCode!,
             dFechaInicio = p.StartDate,
@@ -50,15 +50,21 @@ public class ListPlanQueryHandler(IUnitOfWork unitOfWork)
             Sectors = p.Sectors!.Select(x => x.SectorId).ToArray(),
             cTituloEstadoActual = p.CurrentTitle!,
             cTituloDescripAcciones = p.ActionsDescription!,
-            cTituloDescripAlertas = p.AlertsDescription!
-        });
+            cTituloDescripAlertas = p.AlertsDescription!,
+            iVersion = p.Version,
+            iPlanPadre = p.ParentPlanId,
+            iMaeArchivoAprobacion = p.ApprovalFileId,
+            cDocumentoAprobacion = string.IsNullOrEmpty(p.ApprovalDocumentCode)
+                ? $"Oficio N {p.ApprovalDocumentCode} -2024-PCM"
+                : string.Empty
+        }).ToList();
 
         return new ProcessResult<PaginationResponse<PlanResponse>>
         {
             Data = new PaginationResponse<PlanResponse>
             {
                 Count = totalPlans,
-                Data = planResponse.ToList(),
+                Data = planResponse,
                 PageCount = totalPages,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,

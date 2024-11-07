@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using SeCumple.Application.Components.Plans.Dtos;
 using SeCumple.Application.Dtos.Response;
 using SeCumple.Application.Interfaces;
+using SeCumple.CrossCutting.Enums;
 using SeCumple.CrossCutting.Utilities;
 using SeCumple.Domain.Entities;
 using SeCumple.Infrastructure.Persistence.Interfaces;
@@ -17,15 +18,16 @@ public class UpdatePlanStatusCommandHandler(IUnitOfWork unitOfWork, IFileManagem
     {
         var plan = await unitOfWork.Repository<Plan>().GetByIdAsync(request.iDetPlanCumplimiento);
 
-        switch (request.cNombreEstado)
-        {
-            case "EN ELABORACION":
-                plan.PlanStatusId = 1; ////TODO: crear enum plan staud y asociar aprobado
+        var status = EnumExtensions.GetEnumValueFromEnumMemberValue<StatusPlanEnum>(request.cNombreEstado);
 
+        switch (status)
+        {
+            case StatusPlanEnum.Pending:
+                plan.PlanStatusId = 1;
                 plan.Annotation = request.cObservacion;
                 break;
-            case "APROBADO":
-                plan.PlanStatusId = 2; //TODO: crear enum plan staud y asociar aprobado
+            case StatusPlanEnum.Approved:
+                plan.PlanStatusId = 2;
 
                 if (request.fArchivo != null)
                 {
@@ -45,7 +47,7 @@ public class UpdatePlanStatusCommandHandler(IUnitOfWork unitOfWork, IFileManagem
 
                     var fileExists = await unitOfWork.Repository<FileUploaded>()
                         .GetEntityAsync(x => x.FileSignature == shaFile);
-                    
+
                     if (fileExists != null)
                     {
                         file = fileExists;
@@ -60,15 +62,23 @@ public class UpdatePlanStatusCommandHandler(IUnitOfWork unitOfWork, IFileManagem
 
                     plan.ApprovalFileId = file.Id;
                     plan.ApprovalDocumentCode = plan.ApprovalDocumentCode ??
-                        (string.IsNullOrEmpty(code) ? "0001" : (int.Parse(code) + 1).ToString("D4"));
+                                                (string.IsNullOrEmpty(code)
+                                                    ? "0001"
+                                                    : (int.Parse(code) + 1).ToString("D4"));
                 }
 
                 break;
+            case StatusPlanEnum.Closed:
+                plan.PlanStatusId = 3;
+                break;
+            case StatusPlanEnum.Update:
+            case null:
             default:
-                plan.PlanStatusId = 3; ////TODO: crear enum plan staud y asociar el buscado
+                plan.PlanStatusId = 4;
                 break;
         }
-
+        plan.ModifiedBy = request.iCodUsuarioRegistro;
+        
         await unitOfWork.Repository<Plan>().UpdateAsync(plan);
 
         return new ProcessResult<PlanResponse>

@@ -13,6 +13,8 @@ public class ReassignInterventionCommandHandler(IUnitOfWork unitOfWork, IMediato
     public async Task<ProcessResult<InterventionResponse>> Handle(ReassignInterventionCommand request,
         CancellationToken cancellationToken)
     {
+        // TODO: VALIDAR
+        
         var interventionAssignmentsToDelete = await unitOfWork.Repository<InterventionAssignment>()
             .GetAsync(x => x.InterventionId == request.iMovIntervencion);
 

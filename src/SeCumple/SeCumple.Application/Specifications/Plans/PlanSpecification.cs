@@ -9,8 +9,7 @@ public class PlanSpecification : BaseSpecification<Plan>
             (!plansParams.Filters!.ContainsKey("iTipoDispositivo") ||
              ParseIds(plansParams.Filters["iTipoDispositivo"]).Contains(x.DocumentTypeId)) &&
             (!plansParams.Filters!.ContainsKey("cNombre") ||
-             x.Name!.Contains(plansParams.Filters["cNombre"])) &&
-            x.Status.Equals('1')
+             x.Name!.Contains(plansParams.Filters["cNombre"]))
     )
     {
         AddInclude(x => x.Document!);
@@ -38,6 +37,5 @@ public class PlanForCountingSpecification(SpecificationParams plansParams) : Bas
     (!plansParams.Filters!.ContainsKey("iTipoDispositivo") ||
      ParseIds(plansParams.Filters["iTipoDispositivo"]).Contains(x.DocumentTypeId)) &&
     (!plansParams.Filters!.ContainsKey("cNombre") ||
-     x.Name!.Contains(plansParams.Filters["cNombre"])) &&
-    x.Status.Equals('1')
+     x.Name!.Contains(plansParams.Filters["cNombre"]))
 );

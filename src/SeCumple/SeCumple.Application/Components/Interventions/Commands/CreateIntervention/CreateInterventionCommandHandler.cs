@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using MediatR;
 using SeCumple.Application.Components.Interventions.Dtos;
 using SeCumple.Application.Dtos.Response;
+using SeCumple.CrossCutting.Enums;
 using SeCumple.Domain.Entities;
 using SeCumple.Infrastructure.Persistence.Interfaces;
 
@@ -13,7 +14,7 @@ public class CreateInterventionCommandHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<InterventionResponse>> Handle(CreateInterventionCommand request,
         CancellationToken cancellationToken)
     {
-        var interventionStatus = await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == "ACTIVO");
+        var interventionStatus = await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == StatusInterventionEnum.Pending.GetEnumMemberValue());
 
         var intervention = new Intervention
         {

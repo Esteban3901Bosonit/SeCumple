@@ -12,22 +12,35 @@ public class AssignInterventionCommandHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<InterventionResponse>> Handle(AssignInterventionCommand request,
         CancellationToken cancellationToken)
     {
-        var interventionAssignment = new InterventionAssignment
+        var assignments = request.iMovAsigEspecialistaOCG.Select(id => new InterventionAssignment
         {
             CreatedBy = request.iCodUsuarioRegistro,
             InterventionId = request.iMovIntervencion,
-            AssigmentId = request.iMovAsigEspecialistaOCG
-        };
-        await unitOfWork.Repository<InterventionAssignment>().AddAsync(interventionAssignment);
+            AssigmentId = id
+        }).ToList();
+        
+        assignments.AddRange(request.iMovAsigCoordinadorOCG.Select(id => new InterventionAssignment
+        {
+            CreatedBy = request.iCodUsuarioRegistro,
+            InterventionId = request.iMovIntervencion,
+            AssigmentId = id
+        }));
+        
+        assignments.AddRange(request.iMovAsigAsesorSector.Select(id => new InterventionAssignment
+        {
+            CreatedBy = request.iCodUsuarioRegistro,
+            InterventionId = request.iMovIntervencion,
+            AssigmentId = id
+        }));
+        
+        assignments.AddRange(request.iMovAsigEspecialistaSector.Select(id => new InterventionAssignment
+        {
+            CreatedBy = request.iCodUsuarioRegistro,
+            InterventionId = request.iMovIntervencion,
+            AssigmentId = id
+        }));
 
-        interventionAssignment.AssigmentId = request.iMovAsigCoordinadorOCG;
-        await unitOfWork.Repository<InterventionAssignment>().AddAsync(interventionAssignment);
-
-        interventionAssignment.AssigmentId = request.iMovAsigEspecialistaSector;
-        await unitOfWork.Repository<InterventionAssignment>().AddAsync(interventionAssignment);
-
-        interventionAssignment.AssigmentId = request.iMovAsigAsesorSector;
-        await unitOfWork.Repository<InterventionAssignment>().AddAsync(interventionAssignment);
+        unitOfWork.Repository<InterventionAssignment>().AddRange(assignments);
 
         var assignmentStatus =
             await unitOfWork.Repository<ParameterDetail>().GetEntityAsync(x => x.Name == "ASIGNADO");
@@ -64,9 +77,9 @@ public class AssignInterventionCommandHandler(IUnitOfWork unitOfWork)
 public class AssignInterventionCommand : IRequest<ProcessResult<InterventionResponse>>
 {
     public int iMovIntervencion { get; set; }
-    public int iMovAsigEspecialistaOCG { get; set; }
-    public int iMovAsigCoordinadorOCG { get; set; }
-    public int iMovAsigEspecialistaSector { get; set; }
-    public int iMovAsigAsesorSector { get; set; }
+    public int[] iMovAsigEspecialistaOCG { get; set; }
+    public int[] iMovAsigCoordinadorOCG { get; set; }
+    public int[] iMovAsigEspecialistaSector { get; set; }
+    public int[] iMovAsigAsesorSector { get; set; }
     public int iCodUsuarioRegistro { get; set; }
 }

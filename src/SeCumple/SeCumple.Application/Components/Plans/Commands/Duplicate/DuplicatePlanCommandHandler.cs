@@ -12,9 +12,14 @@ public class DuplicatePlanCommandHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<PlanResponse>> Handle(DuplicatePlanCommand request,
         CancellationToken cancellationToken)
     {
-        
-        // TODO: Incrementar version del plan
         var plan = await unitOfWork.Repository<Plan>().GetByIdAsync(request.iDetPlanCumplimiento);
+
+        var newPlan = plan.Duplicate();
+        newPlan.CreatedBy = request.iCodUsuarioRegistro;
+        newPlan.ParentPlanId = plan.ParentPlanId ?? plan.Id;
+
+        await unitOfWork.Repository<Plan>().AddAsync(newPlan);
+        
         plan.Status = '0';
         plan.ModifiedBy = request.iCodUsuarioRegistro;
 
@@ -24,9 +29,9 @@ public class DuplicatePlanCommandHandler(IUnitOfWork unitOfWork)
         {
             Data = new PlanResponse
             {
-                iDetPlanCumplimiento = plan.Id!,
-                cNombre = plan.Name!,
-                cNombreEstado = plan.Status == '1' ? "ACTIVO" : "INACTIVO"
+                iDetPlanCumplimiento = newPlan.Id!,
+                cNombre = newPlan.Name!,
+                cNombreEstado = newPlan.Status == '1' ? "ACTIVO" : "INACTIVO"
             }
         };
     }

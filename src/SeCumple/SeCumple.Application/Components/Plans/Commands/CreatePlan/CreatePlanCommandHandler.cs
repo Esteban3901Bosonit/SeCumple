@@ -13,7 +13,7 @@ public class CreatePlanCommandHandler(IUnitOfWork unitOfWork)
     public async Task<ProcessResult<PlanResponse>> Handle(CreatePlanCommand request,
         CancellationToken cancellationToken)
     {
-        var plan = new Plan
+        var plan = new Plan()
         {
             Name = request.cNombre,
             Annotation = request.cObservacion,

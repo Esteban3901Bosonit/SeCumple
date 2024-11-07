@@ -15,4 +15,8 @@ public class PlanResponse
     public string cTituloEstadoActual { get; set; }
     public string cTituloDescripAcciones { get; set; }
     public string cTituloDescripAlertas { get; set; }
+    public int? iVersion { get; set; }
+    public int? iPlanPadre { get; set; }
+    public string? cDocumentoAprobacion { get; set; }
+    public int? iMaeArchivoAprobacion { get; set; }
 }
